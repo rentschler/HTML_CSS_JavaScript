@@ -9,56 +9,26 @@
     }</style>
     <link rel="stylesheet" type="text/css" href="design.css">
 </head>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 <body>
-<!--Alle Elemente die Dargestelt werden sollen-->
-<h1 style="color:aqua"> Das ist eine Überschrift </h1>
+<h1 style="color:aqua"> Assignment 11 Data Statistics </h1>
 
-<h2>
-    Das ist eine Unterüberschrift
-</h2>
-<h2 id=different>
-    andere Unterüberschrift
-</h2>
-<p> Das ist ein Link:
-    <a href="http://www.uni-konstanz.de">uni.kn</a>
 
+<p>Hier ist mein scatterplot:
 </p>
 
-<table border=1px>
-    <tr>
-        <!--            table row Element-->
-        <th>
-            <!--                Überschrift meiner einzelnen Spalten-->
-            Spalte 1
-        </th>
+<canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+<script>
+    var myChart = new Chart("myChart", {
+        type: "scatter",
+        data: {},
+        options: {}
+    });
 
-        <th>
-            Spalte 2
-        </th>
-    </tr>
+</script>
 
-    <tr>
-        <td>
-            <!--                table dimension-->
-            1
-        </td>
-
-        <td>
-            2
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            3
-        </td>
-        <td>
-            4
-        </td>
-    </tr>
-
-
-</table>
 
 </body>
 </html>
