@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Simple Coordinate System</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+
+<canvas onclick="divPressed(this)" id="myCanvas" width="500" height="500">
+    <!--    <div  id="container"></div>-->
+
+</canvas>
+
+<span id="averageX"></span>
+<span id="averageY"></span>
+<span id="dX"></span>
+<span id="dY"></span>
+<script>
+
+
+    // get the canvas element
+    var canvas = document.getElementById("myCanvas");
+
+    var punkte = [[0, 0], [100, 100]]
+    var punkteX = [0,100]
+    var punkteY = [0,100]
+
+    // get the 2D rendering context
+    var ctx = canvas.getContext("2d");
+
+    // draw the x and y axes
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height / 2);
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.stroke();
+
+    // draw a point at (33, 44)
+    drawPoint(0, 0)
+    drawPoint(100, 100)
+
+    // draw a line from (1, 2) to (5, 7)
+    // ctx.beginPath();
+    // ctx.moveTo(canvas.width/2 + 1, canvas.height/2 - 2);
+    // ctx.lineTo(canvas.width/2 + 5, canvas.height/2 - 7);
+    // ctx.stroke();
+
+    document.getElementById("myCanvas").addEventListener("click", divPressed);
+
+    function divPressed(elem) {
+
+        // console.log(elem)
+        var x = elem.pageX - 250 - 9;
+        var y = elem.pageY - 9;
+
+        console.log("X: " + x + ", Y: " + y)
+        if (x === undefined || y === undefined || isNaN(x)) {
+            // alert("undefined position")
+        } else {
+            // alert("X: " + x + ", Y: " + y);
+            if (y > 250) {
+                y *= -1
+                y += 250
+            } else {
+                y = 250 - y
+            }
+            punkte.push([x, y])
+            console.log("X: " + x + ", Y: " + y)
+            drawPoint(x, y)
+            document.getElementById("averageX").innerText= "\nMean x: " + calculateAverage(punkte,0) + "\n"
+            document.getElementById("averageY").innerText= "Mean y: " + calculateAverage(punkte,1) + "\n"
+            document.getElementById("dX").innerText= "standard deviation x: " + calculateDeviation(punkteX).toString() + "\n"
+            document.getElementById("dY").innerText= "standard deviation y: " + calculateDeviation(punkteY).toString() + "\n"
+        }
+    }
+
+    function drawPoint(x, y) {
+        ctx.beginPath();
+        ctx.arc(canvas.width / 2 + x, canvas.height / 2 - y, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = "red";
+        ctx.fill();
+    }
+
+    function calculateAverage(a,fst){
+        var sum=0;
+        for (let i = 0; i < a.length; i++) {
+            sum+=a[i][fst]
+        }
+        return Math.round(100* sum/a.length)/100
+    }
+    function calculateDeviation(array){
+        const n = array.length;
+        const mean = array.reduce((a, b) => a + b) / n;
+        const variance = array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n;
+        return Math.sqrt(variance);
+    }
+</script>
+</body>
+</html>

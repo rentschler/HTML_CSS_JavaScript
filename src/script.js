@@ -1,5 +1,5 @@
 var xyValues = [
-    {x:50, y:7},
+    {x:0, y:0},
     {x:60, y:8},
     {x:70, y:8},
     {x:80, y:9},
@@ -22,4 +22,8 @@ var myChart = new Chart("myChart", {
     },
     options: {}
 });
-xyValues.push({x:50, y:20});
+xyValues.push({x:2, y:4});
+
+function add(values,x,y){
+
+}
