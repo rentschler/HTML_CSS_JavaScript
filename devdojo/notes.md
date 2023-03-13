@@ -27,7 +27,10 @@ table : table with tr as a table row and td (table data) as a row entry
 div: a container that has stuff. It can be styled
 <div>div cointaier</div>
 
-<form action="index.html" method="get">
+<form action="HTML/index.html" method="get">
     <input type="text" name="name" placeholder="Name">
     <button type="submit">Submit</button>
 </form>
+
+# CSS
+css is all about learning all the properties and associated values
