@@ -1,7 +1,35 @@
+/*style a paragraph*/
 p{
     background: antiquewhite;
     color: white;
     font-size: 25px;
     font-style: oblique;
 
+}
+
+/*style all the div containers*/
+div{
+    width:100px;
+    height: 100px;
+    background: green;
+    margin: 10px;
+    float: left;
+    position: relative;
+
+}
+/*style the element with the id `box`*/
+#box{
+    width:200px;
+    height: 150px;
+    position: absolute;
+    top: 400px;
+    left:100px;
+
+}
+/*style the element with the calls `boxC`*/
+.boxC{
+    color:burlywood;
+    padding: 15px;
+    border: 2px solid red;
+    /*float: left;*/
 }
