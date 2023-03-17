@@ -9,3 +9,14 @@ console.log(earlyYears + " " + laterYears);
 const myAgeInDogYears = earlyYears + laterYears;
 const myName = 'Joni'.toLowerCase();
 console.log(`My name is ${myName}. I am ${myAge} years old in human years which is ${myAgeInDogYears} years old in dog years.`);
+
+const higherOrderFunc = param => {
+    param();
+    return `I just invoked ${param.name} as a callback function!`
+};
+
+const anotherFunc = () => {
+    return 'I\'m being invoked by the higher-order function!';
+}
+
+higherOrderFunc(anotherFunc);
