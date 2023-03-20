@@ -21,3 +21,10 @@
 * mit de Selektion nur Elemente formatieren die eine bestimmte ID haben
 * div container
     - <img src="box_model.png" alt="CSS Box Model">
+
+[//]: # (    - ![sus.png]&#40;..%2F..%2FOneDrive%2FBilder%2Fsus.png&#41;)
+
+## JavaScript
+* `<script src="script.js"></script>`
+* wie führt man das Script file aus?
+    - man muss angeben wann etwas ausgeführt werden soll (e.g. on start, on click)
