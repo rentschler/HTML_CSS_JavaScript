@@ -1,0 +1,170 @@
+const tobot3 = {
+    model: 'B-4MI',
+    mobile: true,
+    energyLevel: 69,
+    _energyLevel: 100,
+    greeting() {
+        console.log(`I'm model ${this.model}, how may I be of service?`);
+    },
+    provideInfo() {
+        return `I am ${this.model} and my current energy level is ${this.energyLevel}.`
+    },
+    checkEnergy() {
+        console.log(`Energy is currently at ${this.energyLevel}%.`)
+    },
+    recharge() {
+        this._energyLevel += 30;
+        console.log(`Recharged! Energy is currently at ${this._energyLevel}%.`)
+    }
+}
+
+const massProdRobot = (model, mobile) => {
+    return {
+        model,
+        mobile,
+        greeting() {
+            console.log(`I'm model ${this.model}, how may I be of service?`);
+        }
+    }
+}
+
+const shinyNewRobot = massProdRobot('TrayHax', true)
+
+const chargingStation = {
+    _name: 'Electrons-R-Us',
+    _robotCapacity: 120,
+    _active: true,
+    _chargingRooms: ['Low N Slow', 'Middle of the Road', 'In and Output'],
+
+    set robotCapacity(newCapacity) {
+        if (typeof newCapacity === 'number') {
+            this._robotCapacity = newCapacity;
+        } else {
+            console.log(`Change ${newCapacity} to a number.`)
+        }
+    },
+    get robotCapacity() {
+        return this._robotCapacity;
+    }
+}
+
+// The this keyword references the calling object which provides access to the calling object’s properties. 
+
+// The key takeaway from the example above is to avoid using arrow functions when using this in a method!
+
+// Tne common convention is to place an underscore _ before the name of a property 
+// to mean that the property should not be altered. 
+
+tobot3._energyLevel = 'high';
+tobot3.recharge();
+
+// Getters are methods that get and return the internal properties of an object.
+//  In general, getter methods do not need to be called with a set of parentheses. Syntactically, it looks like we’re accessing a property.
+// properties cannot share the same name as the getter/setter function.
+// eg `_energyLevel` and `get energyLevel`
+
+const robot2 = {
+    _model: "1E78V2",
+    _energyLevel: 100,
+    get energyLevel() {
+        return typeof this._energyLevel === 'number' ?
+            `My current energy level is ${this._energyLevel}` :
+            'System malfunction: cannot retrieve energy level';
+    },
+    _numOfSensors: 15,
+    get numOfSensors() {
+        if (typeof this._numOfSensors === 'number') {
+            return this._numOfSensors;
+        } else {
+            return 'Sensors are currently down.'
+        }
+    },
+    set numOfSensors(num) {
+        (typeof num === 'number' && num >= 0) ? this._numOfSensors = num : console.log('Pass in a number that is greater than or equal to 0');
+    }
+};
+
+robot2.numOfSensors = 100;
+console.log(robot2.numOfSensors);
+
+
+// Sometimes we want to create many instances of an object quickly. Here’s where factory functions come in.
+
+const robotFactory = (model, mobile) => {
+    return {
+        model: model,
+        mobile, // property value shorthand 
+        beep() {
+            console.log('Beep Boop');
+
+        }
+    }
+};
+const tinCan = robotFactory('P-500', true);
+tinCan.beep();
+
+// We had to assign each property a key and value even though the key name was the same as the parameter name we assigned to it.
+// we can use a destructuring technique, called property value shorthand, to save ourselves some keystrokes.
+
+// In destructured assignment we create a variable with the name of an object’s key that is wrapped in curly braces { } and assign to it the object. 
+
+const vampire = {
+    name: 'Dracula',
+    residence: 'Transylvania',
+    preferences: {
+        day: 'stay inside',
+        night: 'satisfy appetite'
+    }
+};
+
+const residencee = vampire.residence;
+const { residence } = vampire;
+console.log(residencee); // Prints 'Transylvania' 
+
+// We can even use destructured assignment to grab nested properties of an object:
+
+const { day } = vampire.preferences;
+console.log(day); // Prints 'stay inside'
+
+const robot4 = {
+    model: '1E78V2',
+    energyLevel: 100,
+    functionality: {
+        beep() {
+            console.log('Beep Boop');
+        },
+        fireLaser() {
+            console.log('Pew Pew');
+        },
+    }
+};
+
+const { functionality } = robot4;
+functionality.beep();
+
+
+const robot = {
+	model: 'SAL-1000',
+  mobile: true,
+  sentient: false,
+  armor: 'Steel-plated',
+  energyLevel: 75
+};
+
+// What is missing in the following method call?
+const robotKeys = Object.keys(robot);
+
+console.log(robotKeys);
+
+// Declare robotEntries below this line:
+const robotEntries = Object.entries(robot);
+
+console.log(robotEntries)
+// Declare newRobot below this line:
+
+const newRobot = Object.assign({ 
+  laserBlaster: true, voiceRecognition: true
+},robot);
+
+
+console.log(newRobot);
