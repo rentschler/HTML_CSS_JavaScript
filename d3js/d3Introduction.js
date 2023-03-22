@@ -9,18 +9,36 @@ const DUMMY_DATA = [
     {id: 'd4', value: 6, region: 'Germany'},
 ];
 
+//scaling function
+const xScale = d3.scaleBand() // all bars should have the same width
+    .domain(DUMMY_DATA.map(dataPoint => dataPoint.region))
+    .rangeRound([0, 250])//lower, upper bound
+    .padding(0.1);//percentage padding between the items
+//calculate the height of the data points dynamically
+const yScale = d3.scaleLinear()
+    .domain([0, 15]) //allows us t ospecify wich min/max value we want to map into our char
+    //"my values are between zero and 15"
+    .range([200, 0]); //actual available space in pixels
+
+
 // we want to render a bar chart
-const container = d3.select('div')
-    .classed('container', true)//attach css class
-    .style('border', '1px solid red')//inline styling
-container.selectAll('.bar')
+const container = d3.select('svg')
+    .classed('container', true);//attach css class
+const bars = container.selectAll('.bar')
     .data(DUMMY_DATA)
     .enter()
-    .append('div')
+    .append('rect')
     .classed('bar', true)
-    .style('width', '50px')
-    .style('height', (data => data.value * 15 + 'px'));
+    .attr('width', xScale.bandwidth())
+    .attr('height', (data => 200 - yScale(data.value)))
+    .attr('x', data => xScale(data.region))
+    .attr('y', data => yScale(data.value));
 
+setTimeout(() => {
+    bars.data(DUMMY_DATA.slice(0, 2))
+        .exit()//gives all the elements that are to much and should be removed
+        .remove();
+}, 2000)
 
 //create paragraphs
 /*d3.select('div')//first div element in the file
