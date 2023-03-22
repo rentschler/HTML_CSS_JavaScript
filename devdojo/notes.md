@@ -13,7 +13,14 @@ li: list item
 <li> </li>
 
 a: a link
+For a link to open in a new window, the target attribute requires a value of _blank.
 <a href="https://google.com"> </a>
+or link to a relative path
+<a href="./contact.html">Contact</a>
+Thankfully, HTML allows you to turn nearly any element into a link by wrapping that element with an anchor element.
+<a href="https://en.wikipedia.org/wiki/Opuntia" target="_blank"><img src="https://www.Prickly_Pear_Closeup.jpg" alt="A red prickly pear fruit"/></a>
+jump to the target with the id 'top'
+<a href="#top">Top</a>
 img: image doesnt require a closing tag, alt ist der Alternativ text der erscheint, wenn das Bild nicht lädt
 <img height="500" src="C:\Git\GitHub\HTML_CSS_JavaScript\devdojo\elf.png" width="500" alt = "an elf"/>
 
