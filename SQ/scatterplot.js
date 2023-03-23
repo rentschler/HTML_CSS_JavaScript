@@ -3,7 +3,7 @@ const canvas = document.getElementById("myCanvas");
 
 let pointsXAndY = [];//[[0, 0], [100, 100]]
 let pointsX = [];
-let pointsY = []
+let pointsY = [];
 
 // get the 2D rendering context
 const ctx = canvas.getContext("2d");
@@ -54,8 +54,10 @@ document.getElementById("myCanvas").addEventListener("click", divPressed);
  */
 function divPressed(elem) {
     //get the x and y position and subtract 9 for the offset of the mouse pointer
-    let x = elem.pageX;
-    let y = elem.pageY;
+    let x0 = elem.pageX;
+    let y0 = elem.pageY;
+    let x = x0;
+    let y = y0;
     console.log("X: " + x + ", Y: " + y)
 
     if (x === undefined || y === undefined || isNaN(x)) {
@@ -78,7 +80,7 @@ function divPressed(elem) {
     pointsX.push(x)
     pointsY.push(y)
     console.log("X: " + x + ", Y: " + y)
-    drawPoint(x, y)
+    drawPoint(x, y,x0,y0)
 
     //change the text of average field
     document.getElementById("averageX").innerText =
@@ -102,12 +104,36 @@ function drawLine(x0,y0,x1,y1){
  * draw the point on the scatter plot
  * @param x coordinate
  * @param y coordinate
+ * @param x0 original coordinate before transformation
+ * @param y0 "
  */
-function drawPoint(x, y) {
+function drawPoint(x, y,x0,y0) {
     ctx.beginPath();
     ctx.arc(canvas.width / 2 + x, canvas.height / 2 - y, 5, 0, 2 * Math.PI);
     ctx.fillStyle = "red";
     ctx.fill();
+    canvas.focus();
+    canvas.addEventListener('click', function(event) {
+        console.log(event.clientX, event.clientY);
+        // ...
+
+        // calculate the distance between the clicked point and the center of the drawn point
+        let distance = Math.sqrt(
+            Math.pow(event.clientX - x0, 2) +
+            Math.pow(event.clientY - y0, 2)
+        );
+        console.log(`distance to point (${x0},${y0}) is ${distance}`);
+
+        // if the distance is less than or equal to the radius of the drawn point, then the point was clicked
+        if (distance <= 15) {
+            // do stuff here
+            console.log(`The point (${x},${y}) was clicked!`);
+            ctx.fillStyle = 'blue';
+            ctx.fill();
+
+        }
+    });
+
 }
 
 /**
