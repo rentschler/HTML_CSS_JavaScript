@@ -27,7 +27,7 @@ img: image doesnt require a closing tag, alt ist der Alternativ text der erschei
 video: The controls attribute instructs the browser to include basic video controls such as pausing and playing.
     <video src = "https://content.codecademy.com/courses/freelance-1/unit-1/lesson-2/htmlcss1-vid_brown-bear.mp4" width = "320" height = "240" controls>
 
-table : table with tr as a table row and td (table data) as a row entry
+table : table with tr as a table row and td (table data) as a row entry. To add titles to the rows and columns, use the <th> tag.
 <table>
     
 </table>
@@ -35,6 +35,7 @@ table : table with tr as a table row and td (table data) as a row entry
     
 </tr>
 <td> </td>
+<th> </th>
 
 div: a container that has stuff. It can be styled
 <div>div cointaier</div>
