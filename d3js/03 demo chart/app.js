@@ -32,7 +32,7 @@ chart.append('g').call(d3.axisBottom(x).tickSizeOuter(0))//axis bottom extracts 
 
 function renderChart(){
     chart.selectAll('.bar')//select all elements with class bar
-        .data(selectedData)//bind data to the elements
+        .data(selectedData, data => data.id)//bind data to the elements
         .enter()//get access for the missing elements
         .append('rect')//append a rect element
         .classed('bar', true)//add class bar to the element
@@ -41,11 +41,11 @@ function renderChart(){
         .attr('x', data => x(data.region))
         .attr('y', data => y(data.value));
 
-    chart.selectAll('.bar').data(selectedData).exit().remove();
+    chart.selectAll('.bar').data(selectedData, data => data.id).exit().remove();
     //remove the bars that are not needed anymore
 
 //add labels above the bars
-    chart.selectAll('.label').data(selectedData).enter()
+    chart.selectAll('.label').data(selectedData, data => data.id).enter()
         .append('text')//adds a text element
         .text(data => data.value)//set the text to the value of the data
         .attr('x', data => x(data.region) + x.bandwidth() / 2)//set the x position to the middle of the bar
@@ -53,7 +53,7 @@ function renderChart(){
         .attr('text-anchor', 'middle')//set the anchor to the middle of the text
         .classed('label', true);//add class label to the element
 
-    chart.selectAll('.label').data(selectedData).exit().remove();
+    chart.selectAll('.label').data(selectedData, data => data.id).exit().remove();
     //remove the labels that are not needed anymore
 }
 
