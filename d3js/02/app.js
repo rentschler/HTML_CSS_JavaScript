@@ -24,54 +24,69 @@ d3.select('ul').selectAll('li')
     .append('li')//create the missing elements, renders a new List item for each missing element in the data array
     .text(item => item);//set the text of the new list item to the value of the item in the data array
 
-setTimeout(() => {
-    countryData.addItem('Russia');
+// setTimeout(() => {
+//     countryData.addItem('Russia');
+//     d3.select('ul').selectAll('li')
+//         .data(countryData.items)
+//         .enter()
+//         .append('li')
+//         .classed('added', true)
+//         .text(item => item);
+//
+// }, 200000);
+//
+// /**
+//  * removes the first element. But d3 doesnt know that we removed the first one,
+//  * so it will render the second one as the first one
+//  */
+// setTimeout(() => {
+//     countryData.removeItem(0);
+//     d3.select('ul').selectAll('li')
+//         .data(countryData.items)
+//         .exit()
+//         // .append('li')
+//         .classed('redundant', true);
+//     // .text(item => item);
+//
+// }, 400000);
+//
+// /**
+//  * d3 checks which value is missing now
+//  */
+// setTimeout(() => {
+//     countryData.removeItem(0);
+//     d3.select('ul').selectAll('li')
+//         .data(countryData.items, data => data) //the second parameter is a key function, which is used to identify the elements
+//         // we tell d3 to use the data as the key instead of the index
+//         .exit()
+//         // .append('li')
+//         .classed('redundant', true);
+//     // .text(item => item);
+//
+// }, 600000);
+//
+//
+// setTimeout(() => {
+//     countryData.updateItem(1, 'Ukraine');
+//     d3.select('ul').selectAll('li')
+//         .data(countryData.items, data => data)
+//         .exit()
+//         // .append('li')
+//         .classed('updated', true)
+//         .text('Russia');
+// }, 800000);
+
+function validateForm() {
+    let x = document.forms["myForm"]["name"].value;
+    if (x === "") {
+        alert("Name must be filled out");
+        return false;
+    }
+    countryData.addItem(x);
     d3.select('ul').selectAll('li')
         .data(countryData.items)
         .enter()
         .append('li')
         .classed('added', true)
         .text(item => item);
-
-}, 2000);
-
-/**
- * removes the first element. But d3 doesnt know that we removed the first one,
- * so it will render the second one as the first one
- */
-setTimeout(() => {
-    countryData.removeItem(0);
-    d3.select('ul').selectAll('li')
-        .data(countryData.items)
-        .exit()
-        // .append('li')
-        .classed('redundant', true);
-    // .text(item => item);
-
-}, 4000);
-
-/**
- * d3 checks which value is missing now
- */
-setTimeout(() => {
-    countryData.removeItem(0);
-    d3.select('ul').selectAll('li')
-        .data(countryData.items, data => data) //the second parameter is a key function, which is used to identify the elements
-        // we tell d3 to use the data as the key instead of the index
-        .exit()
-        // .append('li')
-        .classed('redundant', true);
-    // .text(item => item);
-
-}, 6000);
-
-
-setTimeout(() => {
-    countryData.updateItem(1, 'Ukraine');
-    d3.select('ul').selectAll('li')
-        .data(countryData.items, data => data)
-        .exit()
-        // .append('li')
-        .classed('updated', true)
-        .text('Russia');
-}, 8000);
+}

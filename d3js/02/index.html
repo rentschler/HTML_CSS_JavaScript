@@ -49,9 +49,9 @@
     <script src="app.js" defer></script>
 </head>
 <body>
-    <form action="index.html" method="get">
+    <form name ="myForm" action="index.html" method="get" onsubmit="return validateForm()">
         <label>
-            <input type="text" name="name" placeholder="Name">
+            <input type="text" name="name" placeholder="Add a country to the List">
         </label>
         <button type="submit">Submit</button>
     </form>
