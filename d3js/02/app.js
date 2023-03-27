@@ -33,7 +33,7 @@ d3.select('ul').selectAll('li')
 //         .classed('added', true)
 //         .text(item => item);
 //
-// }, 200000);
+// }, 2000);
 //
 // /**
 //  * removes the first element. But d3 doesnt know that we removed the first one,
@@ -48,7 +48,7 @@ d3.select('ul').selectAll('li')
 //         .classed('redundant', true);
 //     // .text(item => item);
 //
-// }, 400000);
+// }, 4000);
 //
 // /**
 //  * d3 checks which value is missing now
@@ -63,7 +63,7 @@ d3.select('ul').selectAll('li')
 //         .classed('redundant', true);
 //     // .text(item => item);
 //
-// }, 600000);
+// }, 6000);
 //
 //
 // setTimeout(() => {
@@ -74,10 +74,12 @@ d3.select('ul').selectAll('li')
 //         // .append('li')
 //         .classed('updated', true)
 //         .text('Russia');
-// }, 800000);
+// }, 8000);
 
 function validateForm() {
-    let x = document.forms["myForm"]["name"].value;
+    let x = document.getElementById("newElement").value;
+    console.log(x);
+
     if (x === "") {
         alert("Name must be filled out");
         return false;
