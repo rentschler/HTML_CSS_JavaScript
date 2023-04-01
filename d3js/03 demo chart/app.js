@@ -39,22 +39,37 @@ chart.append('g').call(d3.axisBottom(x).tickSizeOuter(0))//axis bottom extracts 
     .attr('transform', `translate(0, ${CHART_HEIGHT})`);//move the axis to the bottom of the chart
 
 function renderChart(){
+    const bars = chart.selectAll('.bar')//select all elements with class bar
+        .data(selectedData, data => data.id);//bind data to the elements
     // Update existing bars
     chart.selectAll('.bar').attr('height', data => CHART_HEIGHT - y(data.value))
         .attr('x', data => x(data.region))
         .attr('y', data => y(data.value));
 
     //create new bars
-    chart.selectAll('.bar')//select all elements with class bar
-        .data(selectedData, data => data.id)//bind data to the elements
-        .enter()//get access for the missing elements
+    // chart.selectAll('.bar')
+    //     .data(selectedData, data => data.id)
+    //     .enter()//get access for the missing elements
+    //     .append('rect')//append a rect element
+    //     .classed('bar', true)//add class bar to the element
+    //     .attr('id', data => data.id)
+    //     .attr('width', x.bandwidth())//bandwidth gives us an equal space between the bars
+    //     .attr('height', data => CHART_HEIGHT - y(data.value))
+    //     .attr('x', data => x(data.region))
+    //     .attr('y', data => y(data.value));
+    bars.enter()
         .append('rect')//append a rect element
         .classed('bar', true)//add class bar to the element
         .attr('id', data => data.id)
         .attr('width', x.bandwidth())//bandwidth gives us an equal space between the bars
         .attr('height', data => CHART_HEIGHT - y(data.value))
         .attr('x', data => x(data.region))
-        .attr('y', data => y(data.value));
+        .attr('y', data => y(data.value))
+        .merge(bars)
+        .transition()
+        .duration(500)
+        .attr('width', x.bandwidth());
+
 
     // Remove redundant bars
     chart.selectAll('.bar').data(selectedData, data => data.id).exit().remove();
@@ -133,7 +148,8 @@ function toggleSelected(data) {
 
 const BUTTON_NAMES = [
     {id: 'b1', name: 'Reset'},
-    {id: 'b2', name: 'Test'}
+    {id: 'b2', name: 'Test'},
+    {id: 'b3', name: 'Sort'}
 ];
 //add a button to reset the chart
 const btn = d3.select('#reset').select('button').data(BUTTON_NAMES).enter().append('button');
@@ -154,10 +170,25 @@ d3.select('#b1').on('click', () => {
 
 d3.select('#b2').on('click', () => {
     console.log('btn02');
-    selectedData[0].value = Math.round(Math.random()*12);
+    selectedData[0].value = Math.round(Math.random()*15);
     console.log(DUMMY_DATA[0].value);
 
     renderChart();
 }
 );
+d3.select('#b3').on('click', () => {
+    console.log('btn03');
+    console.log(toString(DUMMY_DATA));
+    selectedData.sort((a, b) => a.value - b.value);
+    console.log(toString(DUMMY_DATA));
+    renderChart();
+});
+
+function toString(data) {
+    let result = "";
+    for (let i = 0; i < data.length; i++) {
+        result += `id: ${data[i].id}, value: ${data[i].value}, region: ${data[i].region}\n`;
+    }
+    return result;
+}
 
