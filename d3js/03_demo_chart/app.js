@@ -181,11 +181,12 @@ const BUTTON_NAMES = [
     {id: 'b5', name: 'Rerender'}
 ];
 
-const btn = d3.select('#reset').select('button').data(BUTTON_NAMES).enter().append('button');
+const btn = d3.select('#buttons').data(BUTTON_NAMES).enter().append('button');
 btn.text(data => data.name)
     .attr('id', data => data.id)
     .attr('title', data => data.id)
-    .attr('type', 'button');
+    .attr('type', 'button')
+    .classed('button', true);
 
 d3.select('#b1').on('click', () => {
     selectedData[0].value = DUMMY_VALUE[0];
@@ -209,7 +210,7 @@ d3.select('#b2').on('click', () => {
 d3.select('#b3').on('click', () => {
     console.log('btn03');
     console.log(toString(selectedData));
-    selectedData.sort((a, b) => -a.value + b.value);
+    selectedData.sort((a, b) => a.value - b.value);
     renderChart();
     console.log(toString(selectedData));
     // Update the positions of the bars
