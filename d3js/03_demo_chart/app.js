@@ -181,8 +181,12 @@ const BUTTON_NAMES = [
     {id: 'b5', name: 'Rerender'}
 ];
 
-const btn = d3.select('#buttons').data(BUTTON_NAMES).enter().append('button');
-btn.text(data => data.name)
+//const btn = d3.select('#buttons').classed('btnClass', true);
+d3.select('#buttons').selectAll('.btn')
+    .data(BUTTON_NAMES)
+    .enter().append('button')
+    .classed('btn', true)
+    .text(data => data.name)
     .attr('id', data => data.id)
     .attr('title', data => data.id)
     .attr('type', 'button')
