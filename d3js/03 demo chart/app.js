@@ -19,7 +19,7 @@ let numOFBars = DUMMY_DATA.length;
 // let selectedData = DUMMY_DATA;
 // create a copy of the original array using the spread operator. Here's an example:
 
-let selectedData = DUMMY_DATA.filter(()=>true)
+let selectedData = DUMMY_DATA.filter(() => true)
 
 const charContainer = d3.select('svg')
     .attr('width', CHART_WIDTH)
@@ -27,14 +27,15 @@ const charContainer = d3.select('svg')
 
 /* ******************************************* */
 /* ************** SCALE ********************* */
-    const x = d3.scaleBand().rangeRound([0, CHART_WIDTH]).padding(0.1);
-    const y = d3.scaleLinear().range([CHART_HEIGHT, 0]);
-function adjustScale(){
+const x = d3.scaleBand().rangeRound([0, CHART_WIDTH]).padding(0.1);
+const y = d3.scaleLinear().range([CHART_HEIGHT, 0]);
+
+function adjustScale() {
     x.domain(selectedData.map(d => d.region));//specify which data should be scaled
     y.domain([0, d3.max(selectedData, d => d.value) + 3]);//specify which data should be scaled
 }
-adjustScale();
 
+adjustScale();
 
 
 //render new rectangles with that class bar for all the missing data-points
@@ -49,8 +50,9 @@ axe.call(d3.axisBottom(x).tickSizeOuter(0))//axis bottom extracts the axis infor
     .attr('transform', `translate(0, ${CHART_HEIGHT})`);//move the axis to the bottom of the chart
 
 /* ******************************************* */
+
 /* ************** CHART ********************* */
-function renderChart(){
+function renderChart() {
     adjustScale();
     axe.call(d3.axisBottom(x).tickSizeOuter(0))//axis bottom extracts the axis information from the scale
         //axisBottom defines, that the labels should be below the axis
@@ -93,7 +95,7 @@ function renderChart(){
         .attr('y', data => y(data.value) - 20)
         .text(data => data.value)
         .attr('x', data => x(data.region) + x.bandwidth() / 2);
-        // .attr('x', data => x(data.region)+5);
+    // .attr('x', data => x(data.region)+5);
     //Remove the labels that are not needed anymore
     chart.selectAll('.label').data(selectedData, data => data.id).exit().remove();
 
@@ -147,6 +149,7 @@ listItems.append('input')
         //add a listener to the checkbox
         toggleSelected(data);
     })
+
 function toggleSelected(data) {
     console.log(data.target.id)
     if (unselectedIds.indexOf(data.target.id) === -1) {
@@ -186,7 +189,7 @@ btn.text(data => data.name)
 d3.select('#b1').on('click', () => {
     selectedData[0].value = DUMMY_VALUE[0];
     console.log('reset');
-    selectedData= DUMMY_DATA.filter(()=>true);
+    selectedData = DUMMY_DATA.filter(() => true);
     unselectedIds = [];
     renderChart();
     listItems.select('input').property('checked', true);
@@ -195,12 +198,12 @@ d3.select('#b1').on('click', () => {
 
 
 d3.select('#b2').on('click', () => {
-    console.log('btn02');
-    selectedData[0].value = Math.round(Math.random()*15);
-    console.log(DUMMY_VALUE);
+        console.log('btn02');
+        selectedData[0].value = Math.round(Math.random() * 15);
+        console.log(DUMMY_VALUE);
 
-    renderChart();
-}
+        renderChart();
+    }
 );
 d3.select('#b3').on('click', () => {
     console.log('btn03');
@@ -236,10 +239,10 @@ function toString(data) {
 
 d3.select('#b4').on('click', () => {
     let name = REGIONS[numOFBars];
-    if(!name) name = `region${numOFBars}`;
+    if (!name) name = `region${numOFBars}`;
     console.log('btn04');
     numOFBars++;
-    selectedData.push({id: `d${numOFBars}`, value: (Math.round(Math.random()*12)), region: `${name}`});
+    selectedData.push({id: `d${numOFBars}`, value: (Math.round(Math.random() * 12)), region: `${name}`});
     console.log(selectedData);
     renderChart();
 });
