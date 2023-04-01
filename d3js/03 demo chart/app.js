@@ -57,6 +57,7 @@ function renderChart(){
     //remove the labels that are not needed anymore
 }
 
+
 renderChart();
 
 //add and remove elements
@@ -91,3 +92,44 @@ listItems.append('input')
         selectedData = DUMMY_DATA.filter(data => unselectedIds.indexOf(data.id) === -1);
         renderChart();
     })//add a listener to the checkbox
+
+const BUTTON_NAMES = [
+    {id: 'b1', name: 'Reset'},
+    {id: 'b2', name: 'Sort'}
+];
+
+
+//add a button to reset the chart
+const btn = d3.select('#reset').select('button').data(BUTTON_NAMES).enter().append('button');
+btn.text(data => data.name)
+    .attr('id', data => data.id)
+    .attr('title', data => data.id)
+    .attr('type', 'btn');
+d3.select('#b1').on('click', () => {
+    console.log('reset');
+    selectedData= DUMMY_DATA;
+    unselectedIds = [];
+    renderChart();
+    listItems.select('input').property('checked', true);
+});
+
+//give the second button an event listener
+
+d3.select('#b2').on('click', () => {
+    console.log('sort');
+    // const sorted = selectedData.sort((a, b) => {
+    //     if (a.value < b.value) {
+    //         return -1;
+    //     }
+    //     if (a.value > b.value) {
+    //         return 1;
+    //     }
+    //     return 0;
+    // });
+    // selectedData = [];
+    // renderChart();
+    // console.log(sorted);
+    // selectedData = sorted;
+    // renderChart();
+}
+);
