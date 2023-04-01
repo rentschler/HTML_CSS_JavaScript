@@ -9,8 +9,16 @@ const MARGINS = {top: 20, bottom: 10};
 const CHART_WIDTH = 600;
 const CHART_HEIGHT = 400 - MARGINS.top - MARGINS.bottom;
 
-let selectedData = DUMMY_DATA;
+// let selectedData = DUMMY_DATA;
+// create a copy of the original array using the spread operator. Here's an example:
 
+// let selectedData = [...DUMMY_DATA];
+let selectedData = [
+    {id: 'd1', value: 10, region: 'USA'},
+    {id: 'd2', value: 11, region: 'India'},
+    {id: 'd3', value: 12, region: 'China'},
+    {id: 'd4', value: 6, region: 'Germany'},
+];
 const x = d3.scaleBand().rangeRound([0, CHART_WIDTH]).padding(0.1);
 const y = d3.scaleLinear().range([CHART_HEIGHT, 0]);
 
@@ -31,6 +39,12 @@ chart.append('g').call(d3.axisBottom(x).tickSizeOuter(0))//axis bottom extracts 
     .attr('transform', `translate(0, ${CHART_HEIGHT})`);//move the axis to the bottom of the chart
 
 function renderChart(){
+    // Update existing bars
+    chart.selectAll('.bar').attr('height', data => CHART_HEIGHT - y(data.value))
+        .attr('x', data => x(data.region))
+        .attr('y', data => y(data.value));
+
+    //create new bars
     chart.selectAll('.bar')//select all elements with class bar
         .data(selectedData, data => data.id)//bind data to the elements
         .enter()//get access for the missing elements
@@ -42,10 +56,10 @@ function renderChart(){
         .attr('x', data => x(data.region))
         .attr('y', data => y(data.value));
 
+    // Remove redundant bars
     chart.selectAll('.bar').data(selectedData, data => data.id).exit().remove();
-    //remove the bars that are not needed anymore
 
-//add labels above the bars
+    //Add labels above the bars
     chart.selectAll('.label').data(selectedData, data => data.id).enter()
         .append('text')//adds a text element
         .text(data => data.value)//set the text to the value of the data
@@ -54,8 +68,13 @@ function renderChart(){
         .attr('text-anchor', 'middle')//set the anchor to the middle of the text
         .classed('label', true);//add class label to the element
 
+    //Update existing labels
+    chart.selectAll('.label').data(selectedData, data => data.id)
+        .attr('y', data => y(data.value) - 20)
+        .text(data => data.value)
+        .attr('x', data => x(data.region) + x.bandwidth() / 2);
+    //Remove the labels that are not needed anymore
     chart.selectAll('.label').data(selectedData, data => data.id).exit().remove();
-    //remove the labels that are not needed anymore
 
     //add a click listener to the chars
     chart.selectAll('.bar').on('click', (data) => {
@@ -101,7 +120,12 @@ function toggleSelected(data) {
     }
     console.log(data);
     console.log(unselectedIds);
-    selectedData = DUMMY_DATA.filter(data => unselectedIds.indexOf(data.id) === -1);
+    selectedData = [
+        {id: 'd1', value: 10, region: 'USA'},
+        {id: 'd2', value: 11, region: 'India'},
+        {id: 'd3', value: 12, region: 'China'},
+        {id: 'd4', value: 6, region: 'Germany'},
+    ].filter(data => unselectedIds.indexOf(data.id) === -1);
     renderChart();
 }
 
@@ -109,7 +133,7 @@ function toggleSelected(data) {
 
 const BUTTON_NAMES = [
     {id: 'b1', name: 'Reset'},
-    {id: 'b2', name: 'Sort'}
+    {id: 'b2', name: 'Test'}
 ];
 //add a button to reset the chart
 const btn = d3.select('#reset').select('button').data(BUTTON_NAMES).enter().append('button');
@@ -129,8 +153,11 @@ d3.select('#b1').on('click', () => {
 
 
 d3.select('#b2').on('click', () => {
-    console.log('sort');
-    selectedData = selectedData.sort((a, b) => b.value - a.value);
+    console.log('btn02');
+    selectedData[0].value = Math.round(Math.random()*12);
+    console.log(DUMMY_DATA[0].value);
+
+    renderChart();
 }
 );
 
