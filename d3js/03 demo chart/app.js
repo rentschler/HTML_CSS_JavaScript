@@ -36,6 +36,7 @@ function renderChart(){
         .enter()//get access for the missing elements
         .append('rect')//append a rect element
         .classed('bar', true)//add class bar to the element
+        .attr('id', data => data.id)
         .attr('width', x.bandwidth())//bandwidth gives us an equal space between the bars
         .attr('height', data => CHART_HEIGHT - y(data.value))
         .attr('x', data => x(data.region))
@@ -55,6 +56,13 @@ function renderChart(){
 
     chart.selectAll('.label').data(selectedData, data => data.id).exit().remove();
     //remove the labels that are not needed anymore
+
+    //add a click listener to the chars
+    chart.selectAll('.bar').on('click', (data) => {
+        console.log(data.target.id);
+        toggleSelected(data);
+        listItems.select(`#${data.target.id}`).property('checked', false);
+    });
 }
 
 
@@ -79,32 +87,37 @@ listItems.append('input')
     .attr('type', 'checkbox')
     .attr('checked', true)//set the checkbox to checked
     .on('change', (data) => {
-        console.log(data.target.id)
-        if (unselectedIds.indexOf(data.target.id) === -1) {
-            //if the id is not in the array
-            unselectedIds.push(data.target.id);
-        } else {
-            unselectedIds = unselectedIds.filter(id => id !== data.target.id);
-            //only keep the ids that are not equal to the id of the data
-        }
-        console.log(data);
-        console.log(unselectedIds);
-        selectedData = DUMMY_DATA.filter(data => unselectedIds.indexOf(data.id) === -1);
-        renderChart();
-    })//add a listener to the checkbox
+        //add a listener to the checkbox
+        toggleSelected(data);
+    })
+function toggleSelected(data) {
+    console.log(data.target.id)
+    if (unselectedIds.indexOf(data.target.id) === -1) {
+        //if the id is not in the array
+        unselectedIds.push(data.target.id);
+    } else {
+        unselectedIds = unselectedIds.filter(id => id !== data.target.id);
+        //only keep the ids that are not equal to the id of the data
+    }
+    console.log(data);
+    console.log(unselectedIds);
+    selectedData = DUMMY_DATA.filter(data => unselectedIds.indexOf(data.id) === -1);
+    renderChart();
+}
+
+
 
 const BUTTON_NAMES = [
     {id: 'b1', name: 'Reset'},
     {id: 'b2', name: 'Sort'}
 ];
-
-
 //add a button to reset the chart
 const btn = d3.select('#reset').select('button').data(BUTTON_NAMES).enter().append('button');
 btn.text(data => data.name)
     .attr('id', data => data.id)
     .attr('title', data => data.id)
     .attr('type', 'btn');
+
 d3.select('#b1').on('click', () => {
     console.log('reset');
     selectedData= DUMMY_DATA;
@@ -112,24 +125,12 @@ d3.select('#b1').on('click', () => {
     renderChart();
     listItems.select('input').property('checked', true);
 });
-
 //give the second button an event listener
+
 
 d3.select('#b2').on('click', () => {
     console.log('sort');
-    // const sorted = selectedData.sort((a, b) => {
-    //     if (a.value < b.value) {
-    //         return -1;
-    //     }
-    //     if (a.value > b.value) {
-    //         return 1;
-    //     }
-    //     return 0;
-    // });
-    // selectedData = [];
-    // renderChart();
-    // console.log(sorted);
-    // selectedData = sorted;
-    // renderChart();
+    selectedData = selectedData.sort((a, b) => b.value - a.value);
 }
 );
+
