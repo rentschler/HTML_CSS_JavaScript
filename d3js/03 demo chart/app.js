@@ -5,6 +5,10 @@ const DUMMY_DATA = [
     {id: 'd4', value: 6, region: 'Germany'},
 ];
 const DUMMY_VALUE = DUMMY_DATA.map(data => data.value);
+const REGIONS =
+    ['USA', 'India', 'China', 'Germany', 'Japan', 'Canada', 'Mexico', 'Brazil',
+        'Italy', 'Australia', 'Russia', 'Spain', 'France', 'United Kingdom',
+        'South Korea', 'Turkey', 'Indonesia', 'Nigeria', 'Egypt', 'Saudi Arabia'];
 
 const MARGINS = {top: 20, bottom: 10};
 const CHART_WIDTH = 600;
@@ -102,6 +106,16 @@ function renderChart(){
 
     //change the color of the first element
     chart.selectAll('.bar').attr('fill', (data, index) => index === 0 ? 'red' : 'steelblue');
+
+    // Set the font size based on the number of bars
+    const numBars = selectedData.length;
+    const fontSize = numBars <= 7 ? '16px' : `${100 / numBars}px`;
+
+    // Set the font size of the labels
+    chart.selectAll('.label')
+        .style('font-size', fontSize);
+    axe.selectAll('text')
+        .style('font-size', fontSize);
 }
 
 
@@ -136,16 +150,20 @@ listItems.append('input')
 function toggleSelected(data) {
     console.log(data.target.id)
     if (unselectedIds.indexOf(data.target.id) === -1) {
+        //delete element
         //if the id is not in the array, add it
         unselectedIds.push(data.target.id);
+        selectedData = selectedData.filter(data => unselectedIds.indexOf(data.id) === -1);
+
     } else {
-        //else remove it
+        //add element
         unselectedIds = unselectedIds.filter(id => id !== data.target.id);
         //only keep the ids that are not equal to the id of the data
+        selectedData = DUMMY_DATA.filter(data => unselectedIds.indexOf(data.id) === -1);
+
     }
     console.log(data);
     console.log(unselectedIds);
-    selectedData = selectedData.filter(data => unselectedIds.indexOf(data.id) === -1);
     renderChart();
 }
 
@@ -217,10 +235,11 @@ function toString(data) {
 }
 
 d3.select('#b4').on('click', () => {
+    let name = REGIONS[numOFBars];
+    if(!name) name = `region${numOFBars}`;
     console.log('btn04');
     numOFBars++;
-    selectedData.push({id: `d${numOFBars}`, value: (Math.round(Math.random()*12)), region: `region${numOFBars}`});
+    selectedData.push({id: `d${numOFBars}`, value: (Math.round(Math.random()*12)), region: `${name}`});
     console.log(selectedData);
     renderChart();
 });
-
