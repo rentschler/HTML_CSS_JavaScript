@@ -177,7 +177,8 @@ const BUTTON_NAMES = [
     {id: 'b1', name: 'Reset'},
     {id: 'b2', name: 'Random'},
     {id: 'b3', name: 'Sort'},
-    {id: 'b4', name: 'Add'}
+    {id: 'b4', name: 'Add'},
+    {id: 'b5', name: 'Rerender'}
 ];
 
 const btn = d3.select('#reset').select('button').data(BUTTON_NAMES).enter().append('button');
@@ -209,6 +210,7 @@ d3.select('#b3').on('click', () => {
     console.log('btn03');
     console.log(toString(selectedData));
     selectedData.sort((a, b) => -a.value + b.value);
+    renderChart();
     console.log(toString(selectedData));
     // Update the positions of the bars
     chart.selectAll(".bar")
@@ -226,6 +228,7 @@ d3.select('#b3').on('click', () => {
         .duration(500)
         .attr("x", data => x(data.region) + x.bandwidth() / 2)
         .attr("y", data => y(data.value) - 20);
+    renderChart();
 
 });
 
@@ -244,5 +247,8 @@ d3.select('#b4').on('click', () => {
     numOFBars++;
     selectedData.push({id: `d${numOFBars}`, value: (Math.round(Math.random() * 12)), region: `${name}`});
     console.log(selectedData);
+    renderChart();
+});
+d3.select('#b5').on('click', () => {
     renderChart();
 });
