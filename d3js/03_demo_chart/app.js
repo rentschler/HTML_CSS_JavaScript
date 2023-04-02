@@ -194,7 +194,9 @@ d3.select('#buttons').selectAll('.btn')
     .attr('id', data => data.id)
     // .attr('title', data => data.id)
     .attr('type', 'button')
-    .classed('button', true);
+    .classed('button', true)
+    .style('background-color', '#4CAF50'); // Green
+
 
 // d3.select('#buttons').selectAll('.tglBtn')
 //     .data(BUTTON_NAMES)
@@ -278,5 +280,10 @@ d3.select('#b5').on('click', () => {
 let isAltMode = false;
 d3.select('#b6').on('click', () => {
     console.log('toggle alt');
+    const button = document.getElementById('b6');
+    if(!isAltMode) button.style.backgroundColor = 'red'; // change the color to red
+    else button.style.backgroundColor = '#4CAF50'; // change the color to green
     isAltMode = !isAltMode;
+    //change css style of btn
+    // d3.select('#b6')
 })
