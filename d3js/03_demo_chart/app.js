@@ -51,6 +51,7 @@ axe.call(d3.axisBottom(x).tickSizeOuter(0))//axis bottom extracts the axis infor
 
 /* ******************************************* */
 
+
 /* ************** CHART ********************* */
 function renderChart() {
     adjustScale();
@@ -104,6 +105,8 @@ function renderChart() {
         console.log(data.target.id);
         toggleSelected(data);
         listItems.select(`#${data.target.id}`).property('checked', false);
+        if(isAltMode)
+        addNew();
     });
 
     //change the color of the first element
@@ -119,27 +122,26 @@ function renderChart() {
     axe.selectAll('text')
         .style('font-size', fontSize);
 }
-
-
 renderChart();
+
+
 
 
 /* ******************************************* */
 /* ************** checkboxes ********************* */
 let unselectedIds = [];
-
 const listItems = d3.select('#data')
     .select('ul')
     .selectAll('li')
     .data(DUMMY_DATA)
     .enter()
     .append('li')
+
 listItems.append('span').text(data => data.region);
 
 
 /* ******************************************* */
 /* ************** CLICK LISTENERS ********************* */
-
 listItems.append('input')
     .attr('id', data => data.id)
     .attr('title', data => data.id)
@@ -170,16 +172,18 @@ function toggleSelected(data) {
     renderChart();
 }
 
+
 /* ******************************************* */
 /* ************** BUTTONS ********************* */
-
 const BUTTON_NAMES = [
     {id: 'b1', name: 'Reset'},
     {id: 'b2', name: 'Random'},
     {id: 'b3', name: 'Sort'},
     {id: 'b4', name: 'Add'},
-    {id: 'b5', name: 'Rerender'}
+    {id: 'b5', name: 'Rerender'},
+    {id: 'b6', name: 'Toggle Alt Mode'}
 ];
+
 
 //const btn = d3.select('#buttons').classed('btnClass', true);
 d3.select('#buttons').selectAll('.btn')
@@ -188,10 +192,21 @@ d3.select('#buttons').selectAll('.btn')
     .classed('btn', true)
     .text(data => data.name)
     .attr('id', data => data.id)
-    .attr('title', data => data.id)
+    // .attr('title', data => data.id)
     .attr('type', 'button')
-    .classed('button', true);
+    .classed('button', true)
+    .style('background-color', '#4CAF50'); // Green
 
+
+// d3.select('#buttons').selectAll('.tglBtn')
+//     .data(BUTTON_NAMES)
+//     .enter().append('switch')
+//     .classed('tglBtn', true)
+//     .text(data => data.name)
+//     .attr('id', data => data.id)
+//     // .attr('title', data => data.id)
+//     .attr('type', 'button')
+//     .classed('button', true);
 d3.select('#b1').on('click', () => {
     selectedData[0].value = DUMMY_VALUE[0];
     console.log('reset');
@@ -200,9 +215,8 @@ d3.select('#b1').on('click', () => {
     renderChart();
     listItems.select('input').property('checked', true);
 });
+
 //give the second button an event listener
-
-
 d3.select('#b2').on('click', () => {
         console.log('btn02');
         selectedData[0].value = Math.round(Math.random() * 15);
@@ -211,6 +225,8 @@ d3.select('#b2').on('click', () => {
         renderChart();
     }
 );
+
+
 d3.select('#b3').on('click', () => {
     console.log('btn03');
     console.log(toString(selectedData));
@@ -236,7 +252,6 @@ d3.select('#b3').on('click', () => {
     renderChart();
 
 });
-
 function toString(data) {
     let result = "";
     for (let i = 0; i < data.length; i++) {
@@ -246,14 +261,29 @@ function toString(data) {
 }
 
 d3.select('#b4').on('click', () => {
+    addNew();
+});
+
+function addNew() {
     let name = REGIONS[numOFBars];
     if (!name) name = `region${numOFBars}`;
-    console.log('btn04');
+    console.log('add');
     numOFBars++;
     selectedData.push({id: `d${numOFBars}`, value: (Math.round(Math.random() * 12)), region: `${name}`});
     console.log(selectedData);
     renderChart();
-});
+}
 d3.select('#b5').on('click', () => {
+    console.log('rerender');
     renderChart();
 });
+let isAltMode = false;
+d3.select('#b6').on('click', () => {
+    console.log('toggle alt');
+    const button = document.getElementById('b6');
+    if(!isAltMode) button.style.backgroundColor = 'red'; // change the color to red
+    else button.style.backgroundColor = '#4CAF50'; // change the color to green
+    isAltMode = !isAltMode;
+    //change css style of btn
+    // d3.select('#b6')
+})
