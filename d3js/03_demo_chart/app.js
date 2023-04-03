@@ -11,8 +11,8 @@ const REGIONS =
         'South Korea', 'Turkey', 'Indonesia', 'Nigeria', 'Egypt', 'Saudi Arabia'];
 
 const MARGINS = {top: 20, bottom: 10};
-const CHART_WIDTH = 600;
-const CHART_HEIGHT = 400 - MARGINS.top - MARGINS.bottom;
+const CHART_WIDTH = 1920;
+const CHART_HEIGHT = 1080 - MARGINS.top - MARGINS.bottom;
 
 let numOFBars = DUMMY_DATA.length;
 
@@ -105,8 +105,8 @@ function renderChart() {
         console.log(data.target.id);
         toggleSelected(data);
         listItems.select(`#${data.target.id}`).property('checked', false);
-        if(isAltMode)
-        addNew();
+        if (isAltMode)
+            addNew();
     });
 
     //change the color of the first element
@@ -122,9 +122,8 @@ function renderChart() {
     axe.selectAll('text')
         .style('font-size', fontSize);
 }
+
 renderChart();
-
-
 
 
 /* ******************************************* */
@@ -219,7 +218,7 @@ d3.select('#b1').on('click', () => {
 //give the second button an event listener
 d3.select('#b2').on('click', () => {
         console.log('btn02');
-        selectedData[0].value = Math.round(Math.random() * 15);
+        selectedData[0].value = Math.round(1 + Math.random() * 15);
         console.log(DUMMY_VALUE);
 
         renderChart();
@@ -252,6 +251,7 @@ d3.select('#b3').on('click', () => {
     renderChart();
 
 });
+
 function toString(data) {
     let result = "";
     for (let i = 0; i < data.length; i++) {
@@ -269,10 +269,11 @@ function addNew() {
     if (!name) name = `region${numOFBars}`;
     console.log('add');
     numOFBars++;
-    selectedData.push({id: `d${numOFBars}`, value: (Math.round(Math.random() * 12)), region: `${name}`});
+    selectedData.push({id: `d${numOFBars}`, value: (Math.round(1 + Math.random() * 12)), region: `${name}`});
     console.log(selectedData);
     renderChart();
 }
+
 d3.select('#b5').on('click', () => {
     console.log('rerender');
     renderChart();
@@ -281,7 +282,7 @@ let isAltMode = false;
 d3.select('#b6').on('click', () => {
     console.log('toggle alt');
     const button = document.getElementById('b6');
-    if(!isAltMode) button.style.backgroundColor = 'red'; // change the color to red
+    if (!isAltMode) button.style.backgroundColor = 'red'; // change the color to red
     else button.style.backgroundColor = '#4CAF50'; // change the color to green
     isAltMode = !isAltMode;
     //change css style of btn
