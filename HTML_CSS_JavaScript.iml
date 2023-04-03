@@ -11,5 +11,8 @@
     <orderEntry type="library" name="d3.v7" level="application" />
     <orderEntry type="library" name="d3-scale.v3" level="application" />
     <orderEntry type="library" name="d3-axis" level="application" />
+    <orderEntry type="library" name="d3.v7" level="application" />
+    <orderEntry type="library" name="d3-scale.v3" level="application" />
+    <orderEntry type="library" name="d3-axis" level="application" />
   </component>
 </module>
