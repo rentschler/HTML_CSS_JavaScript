@@ -40,6 +40,7 @@ table : table with tr as a table row and td (table data) as a row entry. To add 
 div: a container that has stuff. It can be styled
 <div>div cointaier</div>
 
+an HTML <form> element is responsible for collecting information to send somewhere else.
 <form action="HTML/index.html" method="get">
     <input type="text" name="name" placeholder="Name">
     <button type="submit">Submit</button>
