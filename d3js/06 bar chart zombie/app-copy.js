@@ -52,11 +52,6 @@ const chart = charContainer.append('g');//append a svg element, use g to group e
  * Renders the chart
  */
 function renderChart() {
-        // axe.call(d3.axisBottom(x).tickSizeOuter(0))//axis bottom extracts the axis information from the scale
-    //     //axisBottom defines, that the labels should be below the axis
-    //     .attr('color', '#4f009e')
-    //     .attr('transform', `translate(0, ${CHART_HEIGHT})`);//move the axis to the bottom of the chart
-
     console.log(selectedData);
 
     const hexagons = chart.selectAll('.hex')//select all elements with class bar
@@ -72,7 +67,7 @@ function renderChart() {
     chart.selectAll('.hex').attr('height', data => CHART_HEIGHT - 100)
         .attr('width', x.bandwidth())//bandwidth gives us an equal space between the bars
         .attr('height', data => CHART_HEIGHT - 200)
-        .attr('x', data => x(data.region))
+        .attr('x', data => x(data.id))
         .attr('y', data => 100);
 
 
@@ -83,7 +78,6 @@ function renderChart() {
     //add a click listener to the chars
     chart.selectAll('.hex').on('click', (data) => {
         console.log(data.target.id);
-        // toggleSelected(data);
     });
 
 }

@@ -1,8 +1,9 @@
 /* https://github.com/d3/d3-plugins/tree/master/hexbin Copyright 2013 Michael Bostock. */
 //d3 hexbin library
-!function(){d3.hexbin=function(){function u(n){var r={};return n.forEach(function(n,t){var a=s.call(u,n,t)/o,e=Math.round(a),c=h.call(u,n,t)/i-(1&e?.5:0),f=Math.round(c),l=a-e;if(3*Math.abs(l)>1){var v=c-f,g=f+(f>c?-1:1)/2,m=e+(e>a?-1:1),M=c-g,d=a-m;v*v+l*l>M*M+d*d&&(f=g+(1&e?1:-1)/2,e=m)}var j=f+"-"+e,p=r[j];p?p.push(n):(p=r[j]=[n],p.i=f,p.j=e,p.x=(f+(1&e?.5:0))*i,p.y=e*o)}),d3.values(r)}function a(r){var t=0,u=0;return n.map(function(n){var a=Math.sin(n)*r,e=-Math.cos(n)*r,i=a-t,o=e-u;return t=a,u=e,[i,o]})}var e,i,o,c=1,f=1,h=r,s=t;return u.x=function(n){return arguments.length?(h=n,u):h},u.y=function(n){return arguments.length?(s=n,u):s},u.hexagon=function(n){return arguments.length<1&&(n=e),"m"+a(n).join("l")+"z"},u.centers=function(){for(var n=[],r=0,t=!1,u=0;f+e>r;r+=o,t=!t,++u)for(var a=t?i/2:0,h=0;c+i/2>a;a+=i,++h){var s=[a,r];s.i=h,s.j=u,n.push(s)}return n},u.mesh=function(){var n=a(e).slice(0,4).join("l");return u.centers().map(function(r){return"M"+r+"m"+n}).join("")},u.size=function(n){return arguments.length?(c=+n[0],f=+n[1],u):[c,f]},u.radius=function(n){return arguments.length?(e=+n,i=2*e*Math.sin(Math.PI/3),o=1.5*e,u):e},u.radius(1)};var n=d3.range(0,2*Math.PI,Math.PI/3),r=function(n){return n[0]},t=function(n){return n[1]}}();
 
-var data = [
+!function(){d3.hexbin=function(){function u(n){let r={};return n.forEach(function(n,t){let a=s.call(u,n,t)/o,e=Math.round(a),c=h.call(u,n,t)/i-(1&e?.5:0),f=Math.round(c),l=a-e;if(3*Math.abs(l)>1){let v=c-f,g=f+(f>c?-1:1)/2,m=e+(e>a?-1:1),M=c-g,d=a-m;v*v+l*l>M*M+d*d&&(f=g+(1&e?1:-1)/2,e=m)}let j=f+"-"+e,p=r[j];p?p.push(n):(p=r[j]=[n],p.i=f,p.j=e,p.x=(f+(1&e?.5:0))*i,p.y=e*o)}),d3.values(r)}function a(r){let t=0,u=0;return n.map(function(n){let a=Math.sin(n)*r,e=-Math.cos(n)*r,i=a-t,o=e-u;return t=a,u=e,[i,o]})}let e,i,o,c=1,f=1,h=r,s=t;return u.x=function(n){return arguments.length?(h=n,u):h},u.y=function(n){return arguments.length?(s=n,u):s},u.hexagon=function(n){return arguments.length<1&&(n=e),"m"+a(n).join("l")+"z"},u.centers=function(){for(let n=[],r=0,t=!1,u=0;f+e>r;r+=o,t=!t,++u)for(let a=t?i/2:0,h=0;c+i/2>a;a+=i,++h){let s=[a,r];s.i=h,s.j=u,n.push(s)}return n},u.mesh=function(){let n=a(e).slice(0,4).join("l");return u.centers().map(function(r){return"M"+r+"m"+n}).join("")},u.size=function(n){return arguments.length?(c=+n[0],f=+n[1],u):[c,f]},u.radius=function(n){return arguments.length?(e=+n,i=2*e*Math.sin(Math.PI/3),o=1.5*e,u):e},u.radius(1)};let n=d3.range(0,2*Math.PI,Math.PI/3),r=function(n){return n[0]},t=function(n){return n[1]}}();
+
+let data = [
     {title: "Radial Tidy Tree", url: "https://observablehq.com/@d3/radial-tidy-tree"},
     {title: "Factorisation Diagrams", url: "https://www.jasondavies.com/factorisation-diagrams/"},
     {title: "Phylogenetic Tree of Life", url: "https://observablehq.com/@mbostock/tree-of-life"},
@@ -11,7 +12,7 @@ var data = [
     {title: "L*a*b* and HCL color spaces", url: "https://bl.ocks.org/mbostock/3014589"},
     {title: "Treemap", url: "https://observablehq.com/@d3/treemap"},
     {title: "Map Projection Transitions", url: "https://www.jasondavies.com/maps/transition/"},
-    {title: "Across U.S. Companies, Tax Rates Vary Greatly", url: "http://www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html"},
+    {title: "Across U.S. Companies, Tax Rates lety Greatly", url: "http://www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html"},
     {title: "Rotating Voronoi", url: "https://observablehq.com/@mbostock/rotating-voronoi"},
     {title: "Zoomable Geography", url: "https://observablehq.com/@d3/zoom-to-bounding-box"},
     {title: "Fisheye Distortion", url: "https://bost.ocks.org/mike/fisheye/"},
@@ -109,53 +110,55 @@ data.forEach(function(d, i) {
     d.i = i % 10;
     d.j = i / 10 | 0;
 });
+console.log(data);
 
 d3.shuffler(d3.randomLcg(d3.utcHour()))(data);
 
-var height = 1000,
+let height = 1000,
     imageWidth = 500,
     imageHeight = 500,
     radius = 75,
     depth = 4;
 
-var currentFocus = [innerWidth / 2, height / 2],
+let currentFocus = [innerWidth / 2, height / 2],
     desiredFocus,
     idle = true;
 
-var style = document.body.style,
+let style = document.body.style,
     transform = ("webkitTransform" in style ? "-webkit-"
         : "MozTransform" in style ? "-moz-"
             : "msTransform" in style ? "-ms-"
                 : "OTransform" in style ? "-o-"
                     : "") + "transform";
 
-var hexbin = d3.hexbin()
+let hexbin = d3.hexbin()
     .radius(radius);
 
-if (!("ontouchstart" in document)) d3.select("#examples")
-    .on("mousemove", mousemoved);
+// if (!("ontouchstart" in document)) d3.select("#examples")
+//     .on("mousemove", mousemoved);
 
-var deep = d3.select("#examples-deep");
+let deep = d3.select("#examples-deep");
 
-var canvas = deep.append("canvas")
+let canvas = deep.append("canvas")
     .attr("height", height);
 
-var context = canvas.node().getContext("2d");
+let context = canvas.node().getContext("2d");
 
-var svg = deep.append("svg")
+let svg = deep.append("svg")
     .attr("height", height);
 
-var mesh = svg.append("path")
-    .attr("class", "example-mesh");
+// let mesh = svg.append("path")
+//     .attr("class", "example-mesh");
 
-var anchor = svg.append("g")
+let anchor = svg.append("g")
     .attr("class", "example-anchor")
     .selectAll("a");
 
-var graphic = deep.selectAll("svg,canvas");
+let graphic = deep.selectAll("svg,canvas");
 
-var image = new Image;
-image.src = "C:\\Git\\GitHub\\HTML_CSS_JavaScript\\d3js\\04 hexbin\\REDUCED";
+let image = new Image;
+// image.src = "C:\\Git\\GitHub\\HTML_CSS_JavaScript\\d3js\\04 hexbin\\REDUCED";
+image.src = "REDUCED";
 image.onload = resized;
 
 d3.select(window)
@@ -167,8 +170,8 @@ function drawImage(d) {
     context.beginPath();
     context.moveTo(0, -radius);
 
-    for (var i = 1; i < 6; ++i) {
-        var angle = i * Math.PI / 3,
+    for (let i = 1; i < 6; ++i) {
+        let angle = i * Math.PI / 3,
             x = Math.sin(angle) * radius,
             y = -Math.cos(angle) * radius;
         context.lineTo(x, y);
@@ -184,7 +187,7 @@ function drawImage(d) {
 }
 
 function resized() {
-    var deepWidth = innerWidth * (depth + 1) / depth,
+    let deepWidth = innerWidth * (depth + 1) / depth,
         deepHeight = height * (depth + 1) / depth,
         centers = hexbin.size([deepWidth, deepHeight]).centers();
 
@@ -206,13 +209,13 @@ function resized() {
         context.restore();
     });
 
-    mesh.attr("d", hexbin.mesh);
+    // mesh.attr("d", hexbin.mesh);
 
     anchor = anchor.data(centers, function(d) { return d.i + "," + d.j; });
 
     anchor.exit().remove();
 
-    var anchorEnter = anchor.enter().append("a")
+    let anchorEnter = anchor.enter().append("a")
         .attr("xlink:href", function(d) { return d.example.url; })
         .attr("xlink:title", function(d) { return d.example.title; });
 
@@ -224,7 +227,7 @@ function resized() {
 }
 
 function mousemoved(event) {
-    var m = d3.pointer(event);
+    let m = d3.pointer(event);
 
     desiredFocus = [
         Math.round((m[0] - innerWidth / 2) / depth) * depth + innerWidth / 2,
@@ -235,7 +238,7 @@ function mousemoved(event) {
 }
 
 function moved() {
-    var t = d3.timer(function() {
+    let t = d3.timer(function() {
         if (Math.abs(desiredFocus[0] - currentFocus[0]) < .5 && Math.abs(desiredFocus[1] - currentFocus[1]) < .5) currentFocus = desiredFocus, t.stop();
         else currentFocus[0] += (desiredFocus[0] - currentFocus[0]) * .14, currentFocus[1] += (desiredFocus[1] - currentFocus[1]) * .14;
         deep.style(transform, "translate(" + (innerWidth / 2 - currentFocus[0]) / depth + "px," + (height / 2 - currentFocus[1]) / depth + "px)");

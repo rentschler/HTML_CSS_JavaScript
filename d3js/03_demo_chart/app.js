@@ -4,6 +4,7 @@ const DUMMY_DATA = [
     {id: 'd3', value: 12, region: 'China'},
     {id: 'd4', value: 6, region: 'Germany'},
 ];
+
 const DUMMY_VALUE = DUMMY_DATA.map(data => data.value);
 const REGIONS =
     ['USA', 'India', 'China', 'Germany', 'Japan', 'Canada', 'Mexico', 'Brazil',
