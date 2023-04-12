@@ -42,6 +42,9 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/d3.hexbin.v0.min.js?5c6e4f0"></script>
 <script>
+    let hex_radius = 125;
+    let picture_width = 250;
+    let picture_height = picture_width;
     let url_array = ['img.png', '0.png', '1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
 
     let windowWidth = window.innerWidth;
@@ -51,6 +54,7 @@
         width = windowWidth - margin.left - margin.right,
         height = windowHeight - margin.top - margin.bottom-40;
 
+    // teh color is currently redundant
     let color = d3.scale.linear()
         .domain([0, 20])
         .range(["orange", "red"])
@@ -58,7 +62,7 @@
 
     let hexbin = d3.hexbin()
         .size([width, height])
-        .radius(125);
+        .radius(hex_radius);
 
     let points = hexbin.centers();
 
@@ -103,10 +107,10 @@
             d3.select("#mdef")
                 .append("pattern")
                 .attr("id", "image" + i)
-                .attr("x", "-125")
-                .attr("y", "-125")
-                .attr("width", "250")
-                .attr("height", "250")
+                .attr("x", hex_radius - picture_width)
+                .attr("y", hex_radius - picture_height)
+                .attr("width", picture_width)
+                .attr("height", picture_height)
                 .attr("patternUnits", "userSpaceOnUse")
                 .append("image")
                 .attr("x", "0")
@@ -115,8 +119,6 @@
                 .attr("height", "250")
                 .attr("xlink:href", url_array[i % url_array.length]);
         });
-</script>
-<script>
 
     /**
      * Download the SVG as a PNG file
@@ -160,6 +162,5 @@
             link.click();
         };
     }
-
 </script>
 
