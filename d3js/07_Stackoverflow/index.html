@@ -1,5 +1,5 @@
 <!--Issues:
-* only one URL as fill, not multiple pictures
+* fixed: only one URL as fill, not multiple pictures
 * download button will only save hexagons with a solid color as fill, not the image it fills
 * suggestion: use a library like 'html2canvas' or 'canvg'-->
 <!DOCTYPE html>
@@ -7,7 +7,11 @@
 <style>
     body {
         font: 10px sans-serif;
-        display:;
+
+    }
+    .container {
+        /*display: flex;*/
+        flex-direction: column;
         justify-content: center;
     }
 
@@ -20,31 +24,32 @@
 </style>
 
 <body>
-<svg width="40" height="40">
-    <defs id="mdef">
-        <!--        <pattern id="image0" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">-->
-        <!--            <image x="0" y="0" width="250" height="250"-->
-        <!--                   xlink:href="https://purepng.com/public/uploads/large/brown-bear-lse.png"></image>-->
-        <!--        </pattern>-->
-        <!--        <pattern id="image2" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">-->
-        <!--            <image x="0" y="0" width="250" height="250"-->
-        <!--                   xlink:href="https://content.codecademy.com/courses/web-101/web101-image_brownbear.jpg"></image>-->
-        <!--        </pattern>-->
-    </defs>
-</svg>
-
-<button onclick="downloadSvg2()">Download SVG</button>
-
+    <div class="container">
+        <button onclick="downloadSvg()">Download SVG</button>
+        <svg id="hexSVG"></svg>
+        <svg width="40" height="40">
+            <defs id="mdef">
+                <!--this is the pattern for each image, we use d3 to create them for each picture        -->
+                <!--        <pattern id="image0" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">-->
+                <!--            <image x="0" y="0" width="250" height="250"-->
+                <!--                   xlink:href="https://purepng.com/public/uploads/large/brown-bear-lse.png"></image>-->
+                <!--        </pattern>-->
+            </defs>
+        </svg>
+    </div>
+</body>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/d3.hexbin.v0.min.js?5c6e4f0"></script>
 <script>
     let url_array = ['img.png', '0.png', '1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
 
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
 
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width = 1920 - margin.left - margin.right,
-        height = 1080 - margin.top - margin.bottom;
+        width = windowWidth - margin.left - margin.right,
+        height = windowHeight - margin.top - margin.bottom-40;
 
     let color = d3.scale.linear()
         .domain([0, 20])
@@ -64,7 +69,7 @@
         .domain([0, height])
         .range([height, 0]);
 
-    let svg = d3.select("body").append("svg")
+    let svg = d3.select("#hexSVG")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "hexSVG")
@@ -116,7 +121,7 @@
     /**
      * Download the SVG as a PNG file
      */
-    function downloadSvg2() {
+    function downloadSvg() {
         // Get the SVG element
         let svg = document.getElementById("hexSVG");
         console.log(svg);
