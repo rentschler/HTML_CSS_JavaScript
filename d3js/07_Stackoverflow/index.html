@@ -1,6 +1,15 @@
+<!--Issues:
+* only one URL as fill, not multiple pictures
+* download button will only save hexagons with a solid color as fill, not the image it fills
+* suggestion: use a library like 'html2canvas' or 'canvg'-->
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
+    body {
+        font: 10px sans-serif;
+        display:;
+        justify-content: center;
+    }
 
     .hexagon {
         fill: none;
@@ -11,45 +20,51 @@
 </style>
 
 <body>
-<svg  width="40" height="40">
+<svg width="40" height="40">
     <defs id="mdef">
-        <pattern id="image" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">
-            <image x="0" y="0" width="250" height="250"
-                   xlink:href="img.png"></image>
-        </pattern>
+        <!--        <pattern id="image0" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">-->
+        <!--            <image x="0" y="0" width="250" height="250"-->
+        <!--                   xlink:href="https://purepng.com/public/uploads/large/brown-bear-lse.png"></image>-->
+        <!--        </pattern>-->
+        <!--        <pattern id="image2" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">-->
+        <!--            <image x="0" y="0" width="250" height="250"-->
+        <!--                   xlink:href="https://content.codecademy.com/courses/web-101/web101-image_brownbear.jpg"></image>-->
+        <!--        </pattern>-->
     </defs>
 </svg>
 
-<button onclick="downloadSvg()">Download SVG</button>
+<button onclick="downloadSvg2()">Download SVG</button>
 
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/d3.hexbin.v0.min.js?5c6e4f0"></script>
 <script>
+    let url_array = ['img.png', '0.png', '1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+
+    let margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 1920 - margin.left - margin.right,
         height = 1080 - margin.top - margin.bottom;
 
-    var color = d3.scale.linear()
+    let color = d3.scale.linear()
         .domain([0, 20])
-        .range(["orange", "orange"])
+        .range(["orange", "red"])
         .interpolate(d3.interpolateLab);
 
-    var hexbin = d3.hexbin()
+    let hexbin = d3.hexbin()
         .size([width, height])
         .radius(125);
 
-    var points = hexbin.centers();
+    let points = hexbin.centers();
 
-    var x = d3.scale.identity()
+    let x = d3.scale.identity()
         .domain([0, width]);
 
-    var y = d3.scale.linear()
+    let y = d3.scale.linear()
         .domain([0, height])
         .range([height, 0]);
 
-    var svg = d3.select("body").append("svg")
+    let svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "hexSVG")
@@ -72,43 +87,73 @@
         .attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         })
-        .style("fill", 'url(#image)');
+        .attr("id", function (d, i) {
+            return "hex" + i;
+        })
+        // .style("fill", color(0));
+        // .style("fill", 'url(#image)');
+        .each(function (d, i) {
+            //for each hexagon, we defined the image we use as fill
+            d3.select(this).style("fill", 'url(#image' + i + ')');
+            d3.select("#mdef")
+                .append("pattern")
+                .attr("id", "image" + i)
+                .attr("x", "-125")
+                .attr("y", "-125")
+                .attr("width", "250")
+                .attr("height", "250")
+                .attr("patternUnits", "userSpaceOnUse")
+                .append("image")
+                .attr("x", "0")
+                .attr("y", "0")
+                .attr("width", "250")
+                .attr("height", "250")
+                .attr("xlink:href", url_array[i % url_array.length]);
+        });
 </script>
 <script>
 
     /**
      * Download the SVG as a PNG file
      */
-    function downloadSvg() {
-      // const svg = document.querySelector("g");
-      const svg = document.getElementById("hexagons");
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
+    function downloadSvg2() {
+        // Get the SVG element
+        let svg = document.getElementById("hexSVG");
+        console.log(svg);
 
-      // Set canvas dimensions to match SVG element
-      canvas.width = svg.width.baseVal.value;
-      canvas.height = svg.height.baseVal.value;
+        // Get the SVG XML
+        let svgXml = new XMLSerializer().serializeToString(svg);
 
-      // Create a new image and load the SVG data URL
-      const image = new Image();
-      image.src = "data:image/svg+xml;base64," + btoa(new XMLSerializer().serializeToString(svg));
+        // Create a data URI from the SVG XML
+        let svgDataUri = "data:image/svg+xml;base64," + btoa(svgXml);
 
-      // Wait for the image to load
-      image.onload = function () {
-        // Draw the image on the canvas
-        context.drawImage(image, 0, 0);
+        // Create a new Image object and set its src attribute to the data URI
+        let img = new Image();
+        img.src = svgDataUri;
 
-        // Create a PNG data URL from the canvas
-        const pngDataUrl = canvas.toDataURL("image/png");
+        // Create a new canvas element
+        let canvas = document.createElement("canvas");
+        canvas.width = svg.width.baseVal.value;
+        canvas.height = svg.height.baseVal.value;
 
-        // Create a link element and click it to download the PNG file
-        const link = document.createElement("a");
-        link.download = "svg.png";
-        link.href = pngDataUrl;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      };
+        // Wait for the image to load
+        img.onload = function () {
+            console.log("loaded")
+            // Draw the image onto the canvas
+            let ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+
+            // Create a PNG data URI from the canvas
+            let pngDataUri = canvas.toDataURL("image/png");
+
+            // Create a link element with the PNG data URI as its href
+            let link = document.createElement("a");
+            link.href = pngDataUri;
+            link.download = "svg.png";
+
+            // Click the link to trigger the download
+            link.click();
+        };
     }
 
 </script>
