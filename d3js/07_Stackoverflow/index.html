@@ -9,6 +9,7 @@
         font: 10px sans-serif;
 
     }
+
     .container {
         /*display: flex;*/
         flex-direction: column;
@@ -24,19 +25,19 @@
 </style>
 
 <body>
-    <div class="container">
-        <button onclick="downloadSvg()">Download SVG</button>
-        <svg id="hexSVG"></svg>
-        <svg width="40" height="40">
-            <defs id="mdef">
-                <!--this is the pattern for each image, we use d3 to create them for each picture        -->
-                <!--        <pattern id="image0" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">-->
-                <!--            <image x="0" y="0" width="250" height="250"-->
-                <!--                   xlink:href="https://purepng.com/public/uploads/large/brown-bear-lse.png"></image>-->
-                <!--        </pattern>-->
-            </defs>
-        </svg>
-    </div>
+<div class="container">
+    <button onclick="downloadSvg()">Download SVG</button>
+    <svg id="hexSVG"></svg>
+    <svg width="40" height="40">
+        <defs id="mdef">
+            <!--this is the pattern for each image, we use d3 to create them for each picture        -->
+            <!--        <pattern id="image0" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">-->
+            <!--            <image x="0" y="0" width="250" height="250"-->
+            <!--                   xlink:href="https://purepng.com/public/uploads/large/brown-bear-lse.png"></image>-->
+            <!--        </pattern>-->
+        </defs>
+    </svg>
+</div>
 </body>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -52,7 +53,7 @@
 
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = windowWidth - margin.left - margin.right,
-        height = windowHeight - margin.top - margin.bottom-40;
+        height = windowHeight - margin.top - margin.bottom - 40;
 
     // teh color is currently redundant
     let color = d3.scale.linear()
