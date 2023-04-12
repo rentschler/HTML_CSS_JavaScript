@@ -11,7 +11,7 @@
 </style>
 
 <body>
-<svg  width="1" height="1">
+<svg  width="40" height="40">
     <defs id="mdef">
         <pattern id="image" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">
             <image x="0" y="0" width="250" height="250"
@@ -62,6 +62,7 @@
         .attr("height", height);
 
     svg.append("g")
+        .attr("id", "hexagons")
         .attr("clip-path", "url(#clip)")
         .selectAll(".hexagon")
         .data(hexbin(points))
@@ -72,12 +73,15 @@
             return "translate(" + d.x + "," + d.y + ")";
         })
         .style("fill", 'url(#image)');
+</script>
+<script>
 
     /**
      * Download the SVG as a PNG file
      */
     function downloadSvg() {
-      const svg = document.querySelector("#hexSVG");
+      // const svg = document.querySelector("g");
+      const svg = document.getElementById("hexagons");
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
 
