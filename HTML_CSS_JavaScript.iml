@@ -8,12 +8,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Chart.js" level="application" />
     <orderEntry type="library" name="d3.v7" level="application" />
     <orderEntry type="library" name="d3-scale.v3" level="application" />
     <orderEntry type="library" name="d3-axis" level="application" />
     <orderEntry type="library" name="d3.v7" level="application" />
     <orderEntry type="library" name="d3-scale.v3" level="application" />
     <orderEntry type="library" name="d3-axis" level="application" />
+    <orderEntry type="library" name="d3.v3" level="application" />
   </component>
 </module>

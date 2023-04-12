@@ -2,71 +2,110 @@
 <meta charset="utf-8">
 <style>
 
-  .hexagon {
-    fill: none;
-    stroke: #000;
-    stroke-width: 2px;
-  }
+    .hexagon {
+        fill: none;
+        stroke: #000;
+        stroke-width: 2px;
+    }
 
 </style>
 
 <body>
-<svg id="mySvg" width="80" height="80">
-  <defs id="mdef">
-    <pattern id="image" x="0" y="0" height="40" width="40">
-      <image x="0" y="0" width="40" height="40" xlink:href="http://www.e-pint.com/epint.jpg"></image>
-    </pattern>
-  </defs>
+<svg  width="1" height="1">
+    <defs id="mdef">
+        <pattern id="image" x="-125" y="-125" height="250" width="250" patternUnits="userSpaceOnUse">
+            <image x="0" y="0" width="250" height="250"
+                   xlink:href="img.png"></image>
+        </pattern>
+    </defs>
 </svg>
-<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<button onclick="downloadSvg()">Download SVG</button>
+
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/d3.hexbin.v0.min.js?5c6e4f0"></script>
 <script>
 
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
-          width = 900 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = 1920 - margin.left - margin.right,
+        height = 1080 - margin.top - margin.bottom;
 
-  var color = d3.scale.linear()
-          .domain([0, 20])
-          .range(["orange", "orange"])
-          .interpolate(d3.interpolateLab);
+    var color = d3.scale.linear()
+        .domain([0, 20])
+        .range(["orange", "orange"])
+        .interpolate(d3.interpolateLab);
 
-  var hexbin = d3.hexbin()
-          .size([width, height])
-          .radius(100);
+    var hexbin = d3.hexbin()
+        .size([width, height])
+        .radius(125);
 
-  var points = hexbin.centers();
+    var points = hexbin.centers();
 
-  var x = d3.scale.identity()
-          .domain([0, width]);
+    var x = d3.scale.identity()
+        .domain([0, width]);
 
-  var y = d3.scale.linear()
-          .domain([0, height])
-          .range([height, 0]);
+    var y = d3.scale.linear()
+        .domain([0, height])
+        .range([height, 0]);
 
-  var svg = d3.select("body").append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("id", "hexSVG")
 
-  svg.append("clipPath")
-          .attr("id", "clip")
-          .append("rect")
-          .attr("class", "mesh")
-          .attr("width", width)
-          .attr("height", height);
+    svg.append("clipPath")
+        .attr("id", "clip")
+        .append("rect")
+        .attr("class", "mesh")
+        .attr("width", width)
+        .attr("height", height);
 
-  svg.append("g")
-          .attr("clip-path", "url(#clip)")
-          .selectAll(".hexagon")
-          .data(hexbin(points))
-          .enter().append("path")
-          .attr("class", "hexagon")
-          .attr("d", hexbin.hexagon())
-          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-          .style("fill", 'url(#image)');
+    svg.append("g")
+        .attr("clip-path", "url(#clip)")
+        .selectAll(".hexagon")
+        .data(hexbin(points))
+        .enter().append("path")
+        .attr("class", "hexagon")
+        .attr("d", hexbin.hexagon())
+        .attr("transform", function (d) {
+            return "translate(" + d.x + "," + d.y + ")";
+        })
+        .style("fill", 'url(#image)');
+
+    /**
+     * Download the SVG as a PNG file
+     */
+    function downloadSvg() {
+      const svg = document.querySelector("#hexSVG");
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      // Set canvas dimensions to match SVG element
+      canvas.width = svg.width.baseVal.value;
+      canvas.height = svg.height.baseVal.value;
+
+      // Create a new image and load the SVG data URL
+      const image = new Image();
+      image.src = "data:image/svg+xml;base64," + btoa(new XMLSerializer().serializeToString(svg));
+
+      // Wait for the image to load
+      image.onload = function () {
+        // Draw the image on the canvas
+        context.drawImage(image, 0, 0);
+
+        // Create a PNG data URL from the canvas
+        const pngDataUrl = canvas.toDataURL("image/png");
+
+        // Create a link element and click it to download the PNG file
+        const link = document.createElement("a");
+        link.download = "svg.png";
+        link.href = pngDataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+    }
 
 </script>
 
-<pattern id="image" x="-100" y="-100" height="200" width="200">
-  <image x="50" y="50" width="100" height="100" xlink:href="http://www.e-pint.com/epint.jpg"></image>
-</pattern>
