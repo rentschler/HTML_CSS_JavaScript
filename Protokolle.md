@@ -77,3 +77,16 @@ effect.
 In summary, this code uses D3.js to create an interactive hexagonal grid of images, with capabilities for panning and
 zooming based on user interactions. The grid responds to window resizing, and images are drawn within hexagonal
 boundaries using a combination of canvas and SVG elements.
+
+
+## Status update
+
+[insert images into d3 hexbin](https://stackoverflow.com/questions/25192912/how-to-insert-images-into-d3-hexbin)
+I used the code from stackoverflow and with some changes i could fill the hexagons with an image.
+
+Then I defined an array of image locations, and assigned each hexagon an image.
+
+I uploaded my code on gitlab in the playground folder and done some cleanup.
+
+I haven't figured out, how to insert the images into the hexagons, from the code of the [d3js](https://d3js.org/) website.
+The hexagons are only black rectangles.

@@ -23,10 +23,14 @@
     }
 
 </style>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+</head>
 
 <body>
 <div class="container">
-    <button onclick="downloadSvg()">Download SVG</button>
+    <button id="download" >Download SVG</button>
     <svg id="hexSVG"></svg>
     <svg width="40" height="40">
         <defs id="mdef">
@@ -38,10 +42,17 @@
         </defs>
     </svg>
 </div>
+
+<!--<div id="capture" style="padding: 10px; background: #f5da55">-->
+<!--    <h4 style="color: #000; ">Hello world!</h4>-->
+<!--</div>-->
 </body>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/d3.hexbin.v0.min.js?5c6e4f0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+
 <script>
     let hex_radius = 125;
     let picture_width = 250;
@@ -163,5 +174,36 @@
             link.click();
         };
     }
+
+    function downloadSvg2(){
+        // hexSVG
+        var svg = document.getElementById("hexagons");
+        html2canvas(svg, {
+            onrendered: function(canvas) {
+                var imgData = canvas.toDataURL('image/png');
+                var link = document.createElement('a');
+                link.download = 'mySvg.png';
+                link.href = imgData;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    }
+    $("#download").click(function () {
+        html2canvas($("#hexSVG"),{
+            onrendered:function (canvas){
+                var a = document.createElement('a');
+
+                a.href = canvas.toDataURL("image/png");
+
+                a.download = 'image.png';
+
+                a.click();
+            }
+        })
+        downloadSvg2();
+    });
+
 </script>
 
