@@ -1,0 +1,225 @@
+% Copyright (c) David Boetius 2023
+% Made available at the terms of the MIT license https://mit-license.org/
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, textwidth=95ex, textheight=9.75in]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{xparse}
+\usepackage{etoolbox}
+\usepackage{changepage}
+\usepackage[german]{babel}
+\usepackage{csquotes}
+
+\usepackage[11pt]{moresize}
+\usepackage{titling}
+\usepackage{lipsum}  % for filler text
+\usepackage{verbatim}
+\usepackage{enumitem}
+\setenumerate{label=\textbf{\alph*)}}
+
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+
+% colour-blind safe colours
+% colours from: https://jfly.uni-koeln.de/color/
+\definecolor{orange2}{RGB}{230,159,0}  % orange
+\definecolor{skyblue}{RGB}{86,180,233}  % sky-blue
+\definecolor{bluishgreen}{RGB}{0,158,115}  % bluish green
+\definecolor{vermilion}{RGB}{213,94,0}  % vermilion (red)
+\definecolor{reddishpurple}{RGB}{204,121,167}  % reddish purple
+\definecolor{blue2}{RGB}{0,114,178}  % blue
+\definecolor{yellow2}{RGB}{240,228,66}  % yellow
+%
+\definecolor{bgreddishpurple}{RGB}{229,158,197}
+\definecolor{bgyellow2}{RGB}{239,231,119}
+\definecolor{bgblue2}{RGB}{141,176,252}
+
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subcaption}
+
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{amssymb}  % provides more symbols
+\usepackage{IEEEtrantools}  % provides a better environment for aligning equations
+\usepackage{wasysym}  % provides more symbols
+
+\usepackage[vlined]{algorithm2e}
+\LinesNumbered{}
+\DontPrintSemicolon{}
+% increase spacing between algorithm and captions
+\SetAlCapSkip{.75em}
+\SetKwRepeat{Do}{do}{while}
+\usepackage{listings}
+\lstdefinestyle{sengstyle}{%
+    commentstyle=\color{darkgray},
+    keywordstyle=\color{blue2},
+    numberstyle=\tiny\color{darkgray},
+    stringstyle=\color{vermilion},
+    identifierstyle=\color{black},
+    basicstyle=\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+}
+\lstset{style=sengstyle}
+\lstset{xleftmargin=2em,frame=none,framexleftmargin=1.5em}
+\usepackage{oz}
+
+\usepackage{tikz}
+\usetikzlibrary{%
+    calc,
+    arrows,
+    shapes,
+    automata,
+    backgrounds,
+    chains,
+    matrix,
+    patterns,
+}
+\usepackage{fancybox}
+\usepackage{tikz-network}
+\SetVertexStyle[FillColor=white]
+
+\usepackage[
+    pdfborder={0 0 0},
+    breaklinks=true,
+    unicode=true,
+    colorlinks=true,
+    urlcolor=blue,
+]{hyperref}
+\urlstyle{same}  % don't use monospace font for urls
+\PassOptionsToPackage{hyphens}{url}
+
+\setlength{\parindent}{0em}  % this removes the indentation of the first line of a new paragraph
+\setlength{\parskip}{0.5em plus 0.1em minus 0.2em} % this sets the skip before a new paragraph
+
+\newcounter{assignment}
+\newcounter{exercise}[assignment]
+\newcounter{points}
+\renewcommand{\theexercise}{\arabic{assignment}.\arabic{exercise}}
+
+\NewDocumentEnvironment{exercise}{o o}{% first argument: points, second: exercise number (overwrite default)
+    \IfNoValueTF{#2}{%
+        \addtocounter{exercise}{1}
+        \addcontentsline{toc}{section}{Exercise~\theexercise{}}
+    }{%
+        \addcontentsline{toc}{section}{Exercise~#2}
+    }
+    \IfNoValueF{#1}{%
+        \addtocounter{points}{#1}
+    }
+    \section*{%
+        Exercise~\IfNoValueTF{#2}{\theexercise{}}{#2}\hfill%
+        \Ovalbox{\begin{minipage}[c][7mm]{10mm}
+                     ~
+        \end{minipage}}%
+        \IfNoValueF{#1}{\textbf{\hspace*{0.5ex}/\hspace*{0.25ex}#1}}
+    }
+% add space on the right for feedback
+    \begin{adjustwidth}{0pt}{22ex}
+    }{%
+    \end{adjustwidth}
+    \vspace*{3cm}  % space for feedback
+}
+
+\AtBeginDocument{%
+        {%
+        \noindent \footnotesize
+        \textsc{University of Konstanz} \hfill \textsc{Grundlagen der Theoretischen Informatik}\\
+        % \textsc{Theoretische Informatik}
+        \textsc{Summer Term 2023} \hfill
+        due date: 21.04.2023, 06:00Uhr\\
+        \theauthor\hfill\thedate\\
+    }
+    \vspace*{0.5cm}
+
+    \begin{center}
+    {\Huge \textbf{Assignment \theassignment{}}}
+        \\
+    \end{center}
+}
+
+\AtEndDocument{%
+    \vspace*{\baselineskip}
+    {\par\noindent\rule{\textwidth}{0.3mm}}
+    \vspace*{0.3mm}
+    {%
+        \bfseries\large \null\hfill Total:~\Ovalbox{\begin{minipage}[c][7mm]{10mm}
+                                                        ~
+        \end{minipage}}%
+        \ifnum\value{points}>0 \hspace*{0.5ex}/\hspace*{0.25ex}\arabic{points}\fi
+    }%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{Tim Meier \and Jonathan Rentschler}  % enter your names here
+\date{\today}  % or enter another date, for example \date{01.01.2023}
+
+\setcounter{assignment}{1} % enter the assignment number here
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    \begin{exercise}[10][1] % number of points attainable
+        %   If you need to include some calculations, we suggest
+        % using the \texttt{IEEEeqnarray} environment
+        % because that provides better spacing more easily
+        % than \texttt{align}.
+        % For more information, see~\url{https://moser-isi.ethz.ch/docs/typeset_equations.pdf}.
+        % in difference to align you need to specify how the columns
+        % should be aligned. The "C" column type adds space to the right and left
+        % as desired, for example, for columns with equals signs.
+        \begin{IEEEeqnarray*}{rCl}
+            % f(x) &=& x^2 + 4x + 4 \\
+            %      &=& {(x + 2)}^2
+            YOUR ANSWER HERE
+        \end{IEEEeqnarray*}
+    \end{exercise}
+    \begin{exercise}[10][2] % With a custom exercise number
+        \begin{enumerate}[label=(\alph*)]
+            \item
+            \begin{IEEEeqnarray*}{rCl}
+                YOUR ANSWER HERE
+            \end{IEEEeqnarray*}
+            \item
+            \begin{enumerate}[label=(\roman*.)]
+                \item Einbettung:\\
+                Für jede beliebige Zahl $n \in \mathbb{N} _+$
+                gilt $n|n$\\
+                \item Monotonie:\\
+
+                \item Abgeschlossenheit:\\
+            \end{enumerate}
+
+        \end{enumerate}
+    \end{exercise}
+    \begin{exercise}[10][3]
+        \begin{enumerate}[label=(\alph*)]
+            \item
+            \begin{IEEEeqnarray*}{rCl}
+                YOUR ANSWER HERE
+            \end{IEEEeqnarray*}
+            \item
+            \begin{IEEEeqnarray*}{rCl}
+                YOUR ANSWER HERE
+            \end{IEEEeqnarray*}
+        \end{enumerate}
+    \end{exercise}
+\end{document}
+
+
+
