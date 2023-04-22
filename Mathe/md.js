@@ -68,24 +68,17 @@ const dyadischToDecimal = (dyadisch) => {
 }
 const decimalToDyadisch = (dec) => {
     console.log(`input : dec: ${dec}`)
-    let dyadisch = helper(dec);
+    let dyadisch = recursive(dec);
     console.log(`output: dyadisch: ${dyadisch}`)
     return dyadisch;
 }
 
-const helper = (dec) => {
+const recursive = (dec) => {
     let m = calcM(dec);
-    // console.log(`m: ${m}`)
     if(m === 0) return "";
-    let remainder = dec - Math.pow(2, m - 1);
-    let remainder2 = dec - 2 * Math.pow(2, m - 1);
-    if (calcM(remainder) === m - 1) {
-        // console.log(` a_m = 1 we need ${m - 1} stellen for ${remainder}`);
-        return `${helper(remainder)}1`
-    } else if (calcM(remainder2) === m - 1) {
-        // console.log(`a_m = 2 we need ${m - 1} stellen for ${remainder2}`);
-        return `${helper(remainder2)}2`
-    } else return -1;
+    if(calcM(dec - Math.pow(2, m - 1)) === m - 1) return recursive(dec - Math.pow(2, m - 1))+"1";
+    else if(calcM(dec - 2 * Math.pow(2, m - 1)) === m - 1) return recursive(dec - 2 * Math.pow(2, m - 1))+"2";
+    else return NaN;
 }
 
 const dyadischToBinary = (dyadisch) => {
@@ -96,7 +89,7 @@ console.log(decimalToBinary(7));
 console.log(binaryToDecimal(decimalToBinary(123)));
 console.log(binaryToDecimal("1100"));
 console.log(dyadischToDecimal("2111"));
-console.log(dyadischToBinary("2111"));
 console.log(decimalToDyadisch(14));
 console.log(decimalToDyadisch(69420));
-console.log(dyadischToDecimal("2122121122221111"));
+console.log(dyadischToBinary("2122121122221111"));
+console.log(dyadischToBinary("12211"));

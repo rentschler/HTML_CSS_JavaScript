@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal complete d3 project</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <script>
+        const array = [4, 8, 15, 16, 23, 42];
+
+        function redraw(){
+            // Update…
+            var p = d3.select("body")
+            .selectAll("p")
+            .data(array)
+                .text(function(d) { return d; });
+
+            // Enter…
+            p.enter().append("p")
+                .text(function(d) { return d; });
+
+            // Exit…
+            p.exit().remove();
+        };
+
+        d3.select("body")
+        .append("button")
+        .attr("id", "updateButton")
+        .text("redraw")
+        .on("click", function () {
+            redraw();
+        });
+        d3.select("body")
+        .append("button")
+        .attr("id", "addButton")
+        .text("add")
+        .on("click", function () {
+            array.push(1);
+        });
+    </script>
+    
+</body>
+</html>
