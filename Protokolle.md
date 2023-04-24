@@ -40,6 +40,9 @@ scheduled a meeting for April 5th, 2023 at 2:00 pm
 9. [ ]   Hexagon border interaktiv
 10. [ ]   SVG elect statt div Element
 11. [ ]   Überschrift dbvis Art, dbvis1 publications
+12. [ ]   center images with bad aspect ratio
+13. colorpicker for the background
+14. 
 
 
 ## A long text explaining some code
