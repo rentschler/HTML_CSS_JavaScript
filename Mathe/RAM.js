@@ -1,8 +1,12 @@
-let sum = 2;
-const i = sum;
-for (let j = 0; j < i; j++) {
-    sum += sum;
-    sum += sum;
-}
-console.log(sum);
-console.log(Math.pow(2,9));
+let a0 = 0, b1= 0, c2 = 0;
+a0=1;
+b1=1;
+a0 = a0 + a0;
+a0 = a0 + a0;
+c2 = a0 + a0;
+console.log(`R0 = ${a0}, R1 = ${b1}, R2 = ${c2}`);
+do {
+    a0 = a0 + a0;
+    c2 = c2 - b1;
+} while (c2 > 0);
+console.log(`R0 = ${a0}, R1 = ${b1}, R2 = ${c2}`);
