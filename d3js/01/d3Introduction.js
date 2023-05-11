@@ -31,14 +31,35 @@ const bars = container.selectAll('.bar')
     .classed('bar', true)
     .attr('width', xScale.bandwidth())
     .attr('height', (data => 200 - yScale(data.value)))
+    .attr('id' , data => "rect" + data.id)
     .attr('x', data => xScale(data.region))
     .attr('y', data => yScale(data.value));
 
-setTimeout(() => {
-    bars.data(DUMMY_DATA.slice(0, 2))
-        .exit()//gives all the elements that are to much and should be removed
-        .remove();
-}, 2000)
+//tooltip
+
+const tool = d3.select("body").append("div")
+    .attr("display", "none")
+    .attr("position", "absolute");
+
+bars.on("mouseenter", function (d) {
+    let id = d3.select(this).attr("id").replace("rect", "");
+    let region = DUMMY_DATA.find(data => data.id === id).region;
+    console.log(region);
+    tool.attr("display", "block")
+        // .classed("tooltip", true)
+        .attr("left", d3.event.pageX + 10)
+        .attr("top", d3.event.pageY + 10)
+        .html(`<p>Region: ${region}</p>`)
+})
+    .on("mouseLeave", function (d) {
+        tool.attr("display", "none")
+    });
+
+// setTimeout(() => {
+//     bars.data(DUMMY_DATA.slice(0, 2))
+//         .exit()//gives all the elements that are to much and should be removed
+//         .remove();
+// }, 2000)
 
 //create paragraphs
 /*d3.select('div')//first div element in the file

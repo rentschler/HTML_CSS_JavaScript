@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/d3-scale.v3.min.js"></script>
+  <script src="index.js" defer></script>
+  <style>
+      path#line-path {
+          stroke: dodgerblue;
+          fill: none;
+          transition: 500ms ease-in;
+      }
+
+  </style>
+  <title>Document</title>
+</head>
+<body>
+
+<fieldset>
+  <select id="scale-select">
+    <option value="linear">Linear</option>
+    <option value="log">Log</option>
+  </select>
+</fieldset>
+<svg width="680px" height="340px">
+  <g id="vis-g" transform="translate(60,10)">
+    <path id="line-path"></path>
+    <g class="axis-group">
+      <g id="x-axis"></g>
+      <g id="y-axis-log"></g>
+      <g id="y-axis-lin"></g>
+    </g>
+  </g>
+
+</svg>
+</body>
+</html>

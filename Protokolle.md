@@ -112,3 +112,23 @@ When there are no new pictures available, the remaining hexagons are left empty.
 The user gets an alert, that he should reduce the size of the SVG.
 
 As a next step, I will add input fields for the SVG and viewbox size, and keep working on the zoom feature.
+
+
+I added three input field (svg width, svg height and viewbox value).
+
+I watched the first viewbox/viewport [video](https://www.youtube.com/watch?v=6LCUStriM_o) I found.
+And implemented a way to set the width, height and viewbox value of the svg.
+
+![normal](/uploads/8e7e79be0bfa2c3d19c4fbe2067cbcc1/normal.png)
+normal viewbox (100% zoom)
+---
+
+![one_quarter](/uploads/931ffd2fa39e4f1c15e53c25b5c83a26/one_quarter.png)
+zoomed out viewbox (25%)
+---
+
+![quadruple](/uploads/fbb57bb07defacbfd4f2f3b3e2a82d71/quadruple.png)
+zoomed in viewboc (400%)
+---
+
+I'm not sure how we could use this. Until our next meeting, I will be working on the  toggle between white hexagons or cut of ones and the [d3-context-menu](https://github.com/patorjk/d3-context-menu)
