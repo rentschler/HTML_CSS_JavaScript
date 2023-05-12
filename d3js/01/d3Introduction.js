@@ -38,21 +38,21 @@ const bars = container.selectAll('.bar')
 //tooltip
 
 const tool = d3.select("body").append("div")
+    .attr("id", "tooltip")
     .attr("display", "none")
     .attr("position", "absolute");
 
-bars.on("mouseenter", function (d) {
-    let id = d3.select(this).attr("id").replace("rect", "");
-    let region = DUMMY_DATA.find(data => data.id === id).region;
-    console.log(region);
-    tool.attr("display", "block")
-        // .classed("tooltip", true)
-        .attr("left", d3.event.pageX + 10)
-        .attr("top", d3.event.pageY + 10)
-        .html(`<p>Region: ${region}</p>`)
-})
-    .on("mouseLeave", function (d) {
-        tool.attr("display", "none")
+bars.on("mouseover", function (d,e) {
+    tool.style("visibility", "visible")
+        .text(e.value)
+    })
+    .on("mousemove", function (d,e) {
+        tool.style("top", (d.pageY - 10) + "px")
+            .style("left", (d.pageX + 10) + "px")
+            .text(e.value);
+    })
+    .on("mouseout", function (d) {
+        tool.style("visibility", "hidden");
     });
 
 // setTimeout(() => {
