@@ -6,13 +6,10 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-<svg width="500"
-     height="500"
-     id="mySVG">
+<svg width="500" height="500" id="mySVG">
   <defs id="mydef">
     <pattern class="picture" id="image0" x="-125" y="-125" width="250" height="250" patternUnits="userSpaceOnUse">
-      <rect class="hexBackground" id="background0" x="0" y="0" width="250" height="250"
-            style="fill: rgb(255, 255, 255);"></rect>
+      <rect class="hexBackground" id="background0" x="0" y="0" width="250" height="250" style="fill: rgb(255, 255, 255);"></rect>
       <image class="image" x="0" y="0" width="250" height="250" xlink:href="vis.png"></image>
     </pattern>
     <pattern class="picture" id="image1" x="-125" y="-125" width="250" height="250" patternUnits="userSpaceOnUse">
@@ -24,7 +21,6 @@
     <circle cx="0" cy="0" r="40" style="fill: url(#image0)"></circle>
     <circle cx="100" cy="0" r="40" style="fill: url(#image1)"></circle>
   </g>
-  <
 </svg>
 <script>
   function downloadSvg() {
@@ -48,13 +44,21 @@
       // Create a PNG data URL from the canvas
       const pngDataUrl = canvas.toDataURL("image/png");
 
-      // Create a link element and click it to download the PNG file
-      const link = document.createElement("a");
-      link.download = "chart.png";
-      link.href = pngDataUrl;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // Create a new image for the background
+      const background = new Image();
+      background.src = "data:image/svg+xml;base64," + btoa(new XMLSerializer().serializeToString(svg));
+      background.onload = function () {
+        // Draw the background on the canvas
+        context.drawImage(background, 0, 0);
+
+        // Create a link element and click it to download the PNG file
+        const link = document.createElement("a");
+        link.download = "chart.png";
+        link.href = canvas.toDataURL("image/png");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
     };
   }
 </script>
