@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+<svg width="500" height="500" id="mySVG">
+  <defs id="mydef">
+    <pattern class="picture" id="image0" x="-125" y="-125" width="250" height="250" patternUnits="userSpaceOnUse">
+      <rect class="hexBackground" id="background0" x="0" y="0" width="250" height="250" style="fill: rgb(255, 255, 255);"></rect>
+      <image class="image" x="0" y="0" width="250" height="250" xlink:href="vis.png"></image>
+    </pattern>
+  </defs>
+  <g transform="translate(50,50)">
+    <circle cx="0" cy="0" r="40" style="fill: url(#image0)"></circle>
+    <circle cx="100" cy="0" r="40" style="fill: url(#image0)"></circle>
+    <circle cx="0" cy="100" r="40" fill="blue"></circle>
+    <circle cx="100" cy="100" r="40" fill="yellow"></circle>
+  </g>
+</svg>
+<script>
+  function downloadSvg() {
+    const svg = document.querySelector("svg");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    // Set canvas dimensions to match SVG element
+    canvas.width = svg.width.baseVal.value;
+    canvas.height = svg.height.baseVal.value;
+
+    // Create a new image element
+    const image = new Image();
+
+    // Wait for the image to load
+    image.onload = function () {
+      // Draw the image and SVG on the canvas
+      context.drawImage(image, 0, 0);
+      context.drawSvg(svg.outerHTML, 0, 0, svg.width.baseVal.value, svg.height.baseVal.value);
+
+      // Create a PNG data URL from the canvas
+      const pngDataUrl = canvas.toDataURL("image/png");
+
+      // Create a link element and click it to download the PNG file
+      const link = document.createElement("a");
+      link.download = "chart.png";
+      link.href = pngDataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    // Set the source of the image element to the external image file
+    image.src = "vis.png";
+  }
+</script>
+<button onclick="downloadSvg()">Download</button>
+</body>
+</html>
