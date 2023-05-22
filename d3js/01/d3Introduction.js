@@ -31,14 +31,35 @@ const bars = container.selectAll('.bar')
     .classed('bar', true)
     .attr('width', xScale.bandwidth())
     .attr('height', (data => 200 - yScale(data.value)))
+    .attr('id' , data => "rect" + data.id)
     .attr('x', data => xScale(data.region))
     .attr('y', data => yScale(data.value));
 
-setTimeout(() => {
-    bars.data(DUMMY_DATA.slice(0, 2))
-        .exit()//gives all the elements that are to much and should be removed
-        .remove();
-}, 2000)
+//tooltip
+
+const tool = d3.select("body").append("div")
+    .attr("id", "tooltip")
+    .attr("display", "none")
+    .attr("position", "absolute");
+
+bars.on("mouseover", function (d,e) {
+    tool.style("visibility", "visible")
+        .text(e.value)
+    })
+    .on("mousemove", function (d,e) {
+        tool.style("top", (d.pageY - 10) + "px")
+            .style("left", (d.pageX + 10) + "px")
+            .text(e.value);
+    })
+    .on("mouseout", function (d) {
+        tool.style("visibility", "hidden");
+    });
+
+// setTimeout(() => {
+//     bars.data(DUMMY_DATA.slice(0, 2))
+//         .exit()//gives all the elements that are to much and should be removed
+//         .remove();
+// }, 2000)
 
 //create paragraphs
 /*d3.select('div')//first div element in the file

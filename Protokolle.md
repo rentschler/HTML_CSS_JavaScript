@@ -93,3 +93,42 @@ I uploaded my code on gitlab in the playground folder and done some cleanup.
 
 I haven't figured out, how to insert the images into the hexagons, from the code of the [d3js](https://d3js.org/) website.
 The hexagons are only black rectangles.
+
+
+## Status update 
+
+I added the feature to upload/download a JSON file where the attributes of the current configuration are saved.
+
+Now there are two color pickers, one for the background and one for the stroke, 
+additionally I changed the style to match the other buttons.
+
+I started working on the ability to zoom in and out of the pictures, 
+but it's only a prototype and not working as intended yet.
+
+Here i adjusted the pictures individually, so that they fit into the hexagons. 
+This is very time-consuming and Matthias suggested to do this automatically according to the aspect ratio of the pictures.
+
+When there are no new pictures available, the remaining hexagons are left empty.
+The user gets an alert, that he should reduce the size of the SVG.
+
+As a next step, I will add input fields for the SVG and viewbox size, and keep working on the zoom feature.
+
+
+I added three input field (svg width, svg height and viewbox value).
+
+I watched the first viewbox/viewport [video](https://www.youtube.com/watch?v=6LCUStriM_o) I found.
+And implemented a way to set the width, height and viewbox value of the svg.
+
+![normal](/uploads/8e7e79be0bfa2c3d19c4fbe2067cbcc1/normal.png)
+normal viewbox (100% zoom)
+---
+
+![one_quarter](/uploads/931ffd2fa39e4f1c15e53c25b5c83a26/one_quarter.png)
+zoomed out viewbox (25%)
+---
+
+![quadruple](/uploads/fbb57bb07defacbfd4f2f3b3e2a82d71/quadruple.png)
+zoomed in viewboc (400%)
+---
+
+I'm not sure how we could use this. Until our next meeting, I will be working on the  toggle between white hexagons or cut of ones and the [d3-context-menu](https://github.com/patorjk/d3-context-menu)

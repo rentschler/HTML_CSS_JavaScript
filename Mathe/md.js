@@ -30,19 +30,19 @@ const calcM = x => {
 let dec = 123; // Hier kannst du die Dezimalzahl eingeben, die du in eine Binärzahl umwandeln möchtest
 
 const decimalToBinary = (dec) => {
-    console.log(`input : dec: ${dec}`)
+    // console.log(`input : dec: ${dec}`)
     let binary = ""; // Wir starten mit einer leeren Zeichenkette, um die Binärzahl aufzubauen
     while (dec > 0) {
         let remainder = dec % 2; // Wir berechnen den Rest der Division durch 2
         binary = remainder + binary; // Wir fügen den Rest der Binärzahl am Anfang hinzu
         dec = Math.floor(dec / 2); // Wir aktualisieren die Dezimalzahl durch die Division durch 2 (abgerundet)
     }
-    console.log(`output: binary: ${binary}`)
+    // console.log(`output: binary: ${binary}`)
     return binary;
 }
 
 const binaryToDecimal = (binary) => {
-    console.log(`input : binary: ${binary}`)
+    // console.log(`input : binary: ${binary}`)
     let decimal = 0;
     for (let i = 0; i < binary.length; i++) {
         let bit = binary.charAt(i); // Wir lesen das i-te Bit der Binärzahl
@@ -50,12 +50,12 @@ const binaryToDecimal = (binary) => {
             return NaN; // Wenn nicht, geben wir NaN zurück
         decimal = decimal + parseInt(bit) * Math.pow(2, binary.length - i - 1)
     }
-    console.log(`output: decimal: ${decimal}`)
+    // console.log(`output: decimal: ${decimal}`)
     return decimal;
 }
 
 const dyadischToDecimal = (dyadisch) => {
-    console.log(`input : dyadisch: ${dyadisch}`)
+    // console.log(`input : dyadisch: ${dyadisch}`)
     let decimal = 0;
     for (let i = dyadisch.length - 1; i >= 0; i--) {
         let bit = dyadisch.charAt(i); // Wir lesen das i-te Bit der Binärzahl
@@ -63,13 +63,13 @@ const dyadischToDecimal = (dyadisch) => {
             return NaN; // Wenn nicht, geben wir NaN zurück
         decimal = decimal + parseInt(bit) * Math.pow(2, i);
     }
-    console.log(`output: decimal: ${decimal}`)
+    // console.log(`output: decimal: ${decimal}`)
     return decimal;
 }
 const decimalToDyadisch = (dec) => {
-    console.log(`input : dec: ${dec}`)
+    // console.log(`input : dec: ${dec}`)
     let dyadisch = recursive(dec);
-    console.log(`output: dyadisch: ${dyadisch}`)
+    // console.log(`output: dyadisch: ${dyadisch}`)
     return dyadisch;
 }
 
@@ -81,15 +81,18 @@ const recursive = (dec) => {
     else return NaN;
 }
 
+const lg = (x) => {
+    return decimalToDyadisch(x).length;
+}
+
+const trick = x => {
+    return Math.pow(2, lg(x));
+}
+
 const dyadischToBinary = (dyadisch) => {
     return decimalToBinary(dyadischToDecimal(dyadisch));
 }
-console.log(decimalToBinary(123));
-console.log(decimalToBinary(7));
-console.log(binaryToDecimal(decimalToBinary(123)));
-console.log(binaryToDecimal("1100"));
-console.log(dyadischToDecimal("2111"));
-console.log(decimalToDyadisch(14));
-console.log(decimalToDyadisch(69420));
-console.log(dyadischToBinary("2122121122221111"));
-console.log(dyadischToBinary("12211"));
+for (let i = 1; i <= 128; i++) {
+    console.log(i + ': ' + decimalToDyadisch(i) + ', length: ' + lg(i) + 'trick: ' + trick(i) + ', bzw. ' + decimalToDyadisch(trick(i)));
+}
+// console.log(decimalToDyadisch(69420));
