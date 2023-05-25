@@ -1,3 +1,9 @@
+//four steps to implement d3-force
+//1. create a simulation
+//2. create a force
+//3. add the force to the simulation
+//4. add the simulation to the elements
+
 
 var w = 750,h = 600;
 
@@ -13,36 +19,97 @@ var edge_data = [
 // TODO-1:
 // Draw the edge and circles
 
-const edges = svg.selectAll(".edge")
-    .data(edge_data)
-    .enter()
-    .append("line")
-    .classed("edge", true)
-    .attr("x1", d => node_data[d.source].x)
-    .attr("y1", d => node_data[d.source].y)
-    .attr("x2", d => node_data[d.target].x)
-    .attr("y2", d => node_data[d.target].y)
-    .attr("stroke", "black")
-    .attr("stroke-width", 1);
 
-const nodes = svg.selectAll(".node")
-    .data(node_data)
+
+
+
+//1. make a copy of the data
+let nodes = node_data.map(d => Object.create(d));
+let edges = edge_data.map(d => Object.create(d));
+
+//2. create the simulation
+sim = d3.forceSimulation(nodes)
+    // .force("y", d3.forceY().y(300))
+    // .force("x", d3.forceX().x(300))
+    // .force
+    // .force("charge", d3.forceManyBody().strength(-100))
+    .force("center", d3.forceCenter(250, 250))
+    .force("collision", d3.forceCollide().radius(d => d.r))
+    .on("tick", ticked);
+
+//3 bind the data
+
+const nodesEnter = svg.selectAll(".node")
+    .data(nodes)
     .enter()
     .append("circle")
     .classed("node", true)
-    .attr("cx", d => d.x)
-    .attr("cy", d => d.y)
     .attr("r", d => d.r);
+    // .attr("cx", d => d.x)
+    // .attr("cy", d => d.y)
 
+const nodesEdges = svg.selectAll(".edge")
+    .data(edges)
+    .enter()
+    .append("line")
+    .classed("edge", true)
+    // .attr("x1", d => node_data[d.source].x)
+    // .attr("y1", d => node_data[d.source].y)
+    // .attr("x2", d => node_data[d.target].x)
+    // .attr("y2", d => node_data[d.target].y)
+    .attr("stroke", "black")
+    .attr("stroke-width", 1);
 
+//4. define how you update the data on each tick
 
-// TODO-2:
-// Remove the edges, keep the circles only
-// - define the d3 forces you want to use in your simulation
-// - create a copy of the data if needed
-// - create the force simulation on the data (d3.forceSimulation()), and add your forces
-// - draw the circles based on the dataset nodes
-// - define the ticked function to update the circles' position
+// sim.on("tick", () => {
+//     nodesEnter
+//         .attr("cx", d => d.x)
+//         .attr("cy", d => d.y)
+//         .attr("r", d => d.r);
+// });
+//
+
+function ticked() {
+    nodesEnter
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+
+    nodesEdges
+        .attr("x1", d => nodes[d.source].x)
+        .attr("y1", d => nodes[d.source].y)
+        .attr("x2", d => nodes[d.target].x)
+        .attr("y2", d => nodes[d.target].y)
+}
+
+//now we want to implelemnt the drag and drop functionality
+
+//1. define the drag beahvior
+const drag = d3.drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended);
+
+// 2. call the drag behavior on the nodes
+nodesEnter.call(drag);
+
+//3. define the drag functions
+function dragstarted(event, d) {
+    if (!event.active) sim.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+}
+
+function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+}
+
+function dragended(event, d) {
+    if (!event.active) sim.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+}
 
 
 
