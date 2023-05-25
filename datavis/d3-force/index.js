@@ -1,9 +1,3 @@
-//four steps to implement d3-force
-//1. create a simulation
-//2. create a force
-//3. add the force to the simulation
-//4. add the simulation to the elements
-
 
 var w = 750,h = 600;
 
@@ -15,9 +9,6 @@ var node_data = [
 
 var edge_data = [
     { "source": 0, "target": 12 }, { "source": 1, "target": 47 }, { "source": 2, "target": 80 }, { "source": 3, "target": 12 }, { "source": 4, "target": 62 }, { "source": 5, "target": 67 }, { "source": 6, "target": 59 }, { "source": 7, "target": 86 }, { "source": 8, "target": 55 }, { "source": 9, "target": 39 }, { "source": 10, "target": 8 }, { "source": 11, "target": 95 }, { "source": 12, "target": 49 }, { "source": 13, "target": 21 }, { "source": 14, "target": 79 }, { "source": 15, "target": 65 }, { "source": 17, "target": 35 }, { "source": 18, "target": 40 }, { "source": 19, "target": 5 }, { "source": 20, "target": 48 }, { "source": 21, "target": 67 }, { "source": 22, "target": 19 }, { "source": 23, "target": 25 }, { "source": 24, "target": 16 }, { "source": 25, "target": 15 }, { "source": 26, "target": 6 }, { "source": 27, "target": 91 }, { "source": 28, "target": 22 }, { "source": 29, "target": 60 }, { "source": 30, "target": 19 }, { "source": 31, "target": 24 }, { "source": 32, "target": 96 }, { "source": 33, "target": 71 }, { "source": 34, "target": 20 }, { "source": 35, "target": 49 }, { "source": 36, "target": 97 }, { "source": 37, "target": 88 }, { "source": 38, "target": 88 }, { "source": 39, "target": 82 }, { "source": 40, "target": 72 }, { "source": 41, "target": 36 }, { "source": 42, "target": 97 }, { "source": 43, "target": 93 }, { "source": 44, "target": 89 }, { "source": 45, "target": 42 }, { "source": 46, "target": 88 }, { "source": 47, "target": 44 }, { "source": 48, "target": 84 }, { "source": 49, "target": 17 }, { "source": 50, "target": 44 }, { "source": 51, "target": 91 }, { "source": 52, "target": 14 }, { "source": 53, "target": 57 }, { "source": 54, "target": 44 }, { "source": 55, "target": 78 }, { "source": 56, "target": 96 }, { "source": 57, "target": 64 }, { "source": 58, "target": 74 }, { "source": 59, "target": 29 }, { "source": 60, "target": 99 }, { "source": 61, "target": 55 }, { "source": 62, "target": 40 }, { "source": 63, "target": 95 }, { "source": 64, "target": 9 }, { "source": 65, "target": 8 }, { "source": 66, "target": 72 }, { "source": 67, "target": 81 }, { "source": 68, "target": 70 }, { "source": 69, "target": 60 }, { "source": 70, "target": 43 }, { "source": 71, "target": 67 }, { "source": 72, "target": 55 }, { "source": 73, "target": 83 }, { "source": 75, "target": 1 }, { "source": 76, "target": 36 }, { "source": 77, "target": 78 }, { "source": 78, "target": 18 }, { "source": 79, "target": 8 }, { "source": 80, "target": 40 }, { "source": 81, "target": 52 }, { "source": 82, "target": 79 }, { "source": 83, "target": 2 }, { "source": 84, "target": 20 }, { "source": 85, "target": 34 }, { "source": 86, "target": 37 }, { "source": 87, "target": 27 }, { "source": 88, "target": 44 }, { "source": 89, "target": 83 }, { "source": 90, "target": 33 }, { "source": 91, "target": 82 }, { "source": 92, "target": 91 }, { "source": 93, "target": 66 }, { "source": 94, "target": 39 }, { "source": 95, "target": 8 }, { "source": 96, "target": 89 }, { "source": 97, "target": 92 }, { "source": 98, "target": 3 }, { "source": 99, "target": 44 }]
-
-// TODO-1:
-// Draw the edge and circles
 
 
 
@@ -33,8 +24,8 @@ sim = d3.forceSimulation(nodes)
     // .force("x", d3.forceX().x(300))
     // .force
     // .force("charge", d3.forceManyBody().strength(-100))
-    .force("center", d3.forceCenter(250, 250))
-    .force("collision", d3.forceCollide().radius(d => d.r))
+    // .force("center", d3.forceCenter(250, 250))
+    .force("collision", d3.forceCollide().radius(d => 1.1*d.r))
     .on("tick", ticked);
 
 //3 bind the data
@@ -101,9 +92,23 @@ function dragstarted(event, d) {
 }
 
 function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
+    // d.fx = event.x;
+    // d.fy = event.y;
+    const svgWidth = +svg.attr("width");
+    const svgHeight = +svg.attr("height");
+    const circleRadius = +d3.select(this).attr("r");
+
+    // Calculate the minimum and maximum allowed coordinates for the circle
+    const minX = circleRadius;
+    const maxX = svgWidth - circleRadius;
+    const minY = circleRadius;
+    const maxY = svgHeight - circleRadius;
+
+    // Update the circle's position while constraining it within the SVG boundaries
+    d.fx = Math.max(minX, Math.min(maxX, event.x));
+    d.fy = Math.max(minY, Math.min(maxY, event.y));
 }
+
 
 function dragended(event, d) {
     if (!event.active) sim.alphaTarget(0);
