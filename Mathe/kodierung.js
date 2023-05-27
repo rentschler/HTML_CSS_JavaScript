@@ -16,6 +16,19 @@ function inverseC(c){
     return obj;
 }
 
+// function inverse(c);
+// begin
+//     a[0] := 0;
+//     a[1] := 0;
+//     c := (c + 1);
+//     while(mod(c,2)= 0) do begin
+//         c := (c / 2);
+//         a[0] := (a[0] + 1)
+//     end;
+//     a[1] := ((c-1) / 2);
+//     c := a
+// end
+
 for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
         console.log(`x = ${i}, y = ${j}, c = ${c(i,j)}`);

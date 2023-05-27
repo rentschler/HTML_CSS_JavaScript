@@ -20,12 +20,12 @@ let edges = edge_data.map(d => Object.create(d));
 
 //2. create the simulation
 sim = d3.forceSimulation(nodes)
-    // .force("y", d3.forceY().y(300))
-    // .force("x", d3.forceX().x(300))
+    .force("y", d3.forceY().y(300))
+    .force("x", d3.forceX().x(300))
     // .force
     // .force("charge", d3.forceManyBody().strength(-100))
     // .force("center", d3.forceCenter(250, 250))
-    .force("collision", d3.forceCollide().radius(d => 1.1*d.r))
+    .force("collision", d3.forceCollide().radius(d => 2*d.r))
     .on("tick", ticked);
 
 //3 bind the data
@@ -116,5 +116,25 @@ function dragended(event, d) {
     d.fy = null;
 }
 
+// mouse move events
+// svg.on("click", function() {
+//     console.log("click")
+//     //change sim
+//     sim.force("x", d=>{
+//         return d3.forceX().x(300)
+//     })
+// });
+
+// Add an event listener to update the center coordinates
+svg.on("click", function(d,e) {
+    console.log(d)
+    // console.log(d3.mouse(this));
+    const [mouseX, mouseY] = [100,100];
+   let x = d.clientX;
+    let y = d.clientY;
+    sim.force("x", d3.forceX().x(x));
+    sim.force("y", d3.forceY().y(y));
+    sim.alpha(1).restart(); // Restart the simulation to apply the new center
+});
 
 

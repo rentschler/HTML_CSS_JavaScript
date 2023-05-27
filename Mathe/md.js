@@ -96,3 +96,6 @@ for (let i = 1; i <= 128; i++) {
     console.log(i + ': ' + decimalToDyadisch(i) + ', length: ' + lg(i) + 'trick: ' + trick(i) + ', bzw. ' + decimalToDyadisch(trick(i)));
 }
 // console.log(decimalToDyadisch(69420));
+
+console.log("lol")
+console.log(decimalToDyadisch(dyadischToDecimal("112121121") + dyadischToDecimal("112111")))
