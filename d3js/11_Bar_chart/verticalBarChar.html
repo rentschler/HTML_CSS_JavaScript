@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../12_range_input/d3.v7.min.js"></script>
+  <style>
+      body { font: normal 12px Helvetica, sans-serif;
+          margin: 4em;
+          position: relative; }
+
+      .label { position: absolute;
+          left: 0; }
+
+      .bar { color: white;
+          background-color: #7BC8FB;
+          padding: 0.5em;
+          position: absolute;
+          left: 15em; }
+  </style>
+</head>
+<body>
+<div id="chart"></div>
+
+</body>
+
+<script>
+    let data_src = 'https://raw.githubusercontent.com/curran/data/gh-pages/uci_ml/auto-mpg/auto-mpg.csv';
+
+    d3.csv(data_src).then((data) => {
+        console.log(data);
+
+        let labels = data.sort((a, b) => { return +a.mpg - +b.mpg; }).reverse().map((d) => { return d.name; });
+        let values = data.sort((a, b) => { return +a.mpg - +b.mpg; }).reverse().map((d) => { return +d.mpg; });
+
+        let chart = d3.select('#chart');
+
+        let label = chart.selectAll('div').data(labels);
+        let bar   = chart.selectAll('div').data(values);
+
+        label.enter()
+            .append('div')
+            .attr('class', 'label')
+            .style('top', function(d, i) { return i*40 + 'px' })
+            .text(function(d) { return d })
+
+        bar.enter()
+            .append('div')
+            .attr('class', 'bar')
+            .style('width', function(d, i) { return Math.round(d * 10) + 'px' })
+            .style('top', function(d, i) { return i*40 - 7 + 'px' })
+            .text(function(d) { return d3.format(',')(d) })
+    });
+
+</script>
+</html>
