@@ -1,59 +1,75 @@
 // A library for manipulating documents (html dom) based on data
 // d3.js allows you to automatically (re-)render HTML & SVG elements on your page
 // console.log(d3);
+let data_src = 'https://raw.githubusercontent.com/curran/data/gh-pages/uci_ml/auto-mpg/auto-mpg.csv';
 
-const DUMMY_DATA = [
-    {id: 'd1', value: 10, region: 'USA'},
-    {id: 'd2', value: 11, region: 'India'},
-    {id: 'd3', value: 12, region: 'China'},
-    {id: 'd4', value: 6, region: 'Germany'},
-];
+d3.csv(data_src).then(function(data) {
+    //only a slice of the data
+    data = data.slice(0, 50);
+    console.log(data)
+    draw(data);
+});
+
+function draw(data) {
+    // const DUMMY_DATA = [
+    //     {id: 'd1', value: 10, region: 'USA'},
+    //     {id: 'd2', value: 11, region: 'India'},
+    //     {id: 'd3', value: 12, region: 'China'},
+    //     {id: 'd4', value: 6, region: 'Germany'},
+    // ];
+    const DUMMY_DATA = data;
+
+    let width = 1000;
+    let height = 800;
 
 //scaling function
-const xScale = d3.scaleBand() // all bars should have the same width
-    .domain(DUMMY_DATA.map(dataPoint => dataPoint.region))
-    .rangeRound([0, 250])//lower, upper bound
-    .padding(0.1);//percentage padding between the items
+    const xScale = d3.scaleBand() // all bars should have the same width
+        .domain(DUMMY_DATA.map(dataPoint => dataPoint.name))
+        .rangeRound([0, width])//lower, upper bound
+        .padding(0.1);//percentage padding between the items
 //calculate the height of the data points dynamically
-const yScale = d3.scaleLinear()
-    .domain([0, 15]) //allows us t ospecify wich min/max value we want to map into our char
-    //"my values are between zero and 15"
-    .range([200, 0]); //actual available space in pixels
+    const yScale = d3.scaleLinear()
+        .domain([50,0])
+        //"my values are between zero and 15"
+        .range([height, 0]); //actual available space in pixels
 
 
 // we want to render a bar chart
-const container = d3.select('svg')
-    .classed('container', true);//attach css class
-const bars = container.selectAll('.bar')
-    .data(DUMMY_DATA)
-    .enter()
-    .append('rect')
-    .classed('bar', true)
-    .attr('width', xScale.bandwidth())
-    .attr('height', (data => 200 - yScale(data.value)))
-    .attr('id' , data => "rect" + data.id)
-    .attr('x', data => xScale(data.region))
-    .attr('y', data => yScale(data.value));
+    const container = d3.select('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .classed('container', true);//attach css class
+    const bars = container.selectAll('.bar')
+        .data(DUMMY_DATA)
+        .enter()
+        .append('rect')
+        .classed('bar', true)
+        .attr('width', xScale.bandwidth())
+        .attr('height', (data => height - yScale(data.mpg)))
+        .attr('id', data => "rect" + data.name)
+        .attr('x', data => xScale(data.name))
+        .attr('y', data => yScale(data.mpg));
 
 //tooltip
 
-const tool = d3.select("body").append("div")
-    .attr("id", "tooltip")
-    .attr("display", "none")
-    .attr("position", "absolute");
+    const tool = d3.select("body").append("div")
+        .attr("id", "tooltip")
+        .attr("display", "none")
+        .attr("position", "absolute");
 
-bars.on("mouseover", function (d,e) {
-    tool.style("visibility", "visible")
-        .text(e.value)
+    bars.on("mouseover", function (d, e) {
+        tool.style("visibility", "visible")
+            .text(e.value)
     })
-    .on("mousemove", function (d,e) {
-        tool.style("top", (d.pageY - 10) + "px")
-            .style("left", (d.pageX + 10) + "px")
-            .text(e.value);
-    })
-    .on("mouseout", function (d) {
-        tool.style("visibility", "hidden");
-    });
+        .on("mousemove", function (d, e) {
+            tool.style("top", (d.pageY - 10) + "px")
+                .style("left", (d.pageX + 10) + "px")
+                .text(e.name);
+        })
+        .on("mouseout", function (d) {
+            tool.style("visibility", "hidden");
+        });
+}
 
 // setTimeout(() => {
 //     bars.data(DUMMY_DATA.slice(0, 2))

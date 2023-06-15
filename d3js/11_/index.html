@@ -1,0 +1,78 @@
+<html>
+<head>
+  <script type="text/javascript" src = "https://d3js.org/d3.v7.min.js"></script>
+  <style>
+      body { font: normal 12px Helvetica, sans-serif;
+          margin: 4em;
+          position: relative; }
+
+      .label { position: absolute;
+          left: 0; }
+
+      .bar { padding: 0.5em;
+          position: absolute;
+          left: 15em; }
+  </style>
+</head>
+<body>
+<div id="chart">
+</div>
+<script>
+    let data_src = 'https://raw.githubusercontent.com/curran/data/gh-pages/uci_ml/auto-mpg/auto-mpg.csv';
+
+    // TASK
+    // fetch then console.log the data
+    // d3.csv...
+
+let dataCSV;
+    d3.csv(data_src).then(function(data) {
+        //only a slice of the data
+        data = data.slice(0, 50);
+        drawBarChart(data);
+    });
+
+    // TASK: work with only a slice of the data
+
+    // TASK: draw a barchart of the mpg of the different car name
+    function drawBarChart(data){
+        // data[0].mpg = undefined;
+        console.log(data);
+        console.log(data[0].mpg)
+        let width = 600;
+        let height = 600;
+        let margin = {top: 20, right: 20, bottom: 20, left: 20};
+        const svg = d3.select('#chart')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        const xScale = d3.scaleBand().range([0, width])
+            .domain(data.map(d => d.name));
+
+        const yScale = d3.scaleBand()
+            .range([height, 0])//[h,0]
+            .domain([0, d3.max(data, d => d.mpg) + 3]);// [0,max]
+
+        const g = svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        let bars = g.selectAll(".bar")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("x", d => xScale(d.name))
+            .attr("y", d => yScale(d.mpg))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => 1000 - yScale(d.mpg))
+            .attr("fill", "steelblue");
+
+    }
+
+
+
+    // TASK: add a legend (car names); position a group of text
+    // TASK: add a title
+</script>
+</body>
+</html>
