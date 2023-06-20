@@ -47,8 +47,8 @@
         bar.enter()
             .append('div')
             .attr('class', 'bar')
-            .style('width', function(d, i) { return Math.round(d * 10) + 'px' })
-            .style('top', function(d, i) { return i*40 - 7 + 'px' })
+            .style('width', function(d, i) { return Math.round(20 * 10) + 'px' })
+            .style('top', function(d, i) { return i*27 - 7 + 'px' })
             .text(function(d) { return d3.format(',')(d) })
     });
 
