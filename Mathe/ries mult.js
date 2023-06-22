@@ -18,35 +18,11 @@
 // end;
 
 
-function prod(x, y) {
-    var a = [1];
-    var b = [x];
-    var i = 0;
-    var z = 0;
-
-    while (a[i] <= y) {
-        a[i + 1] = a[i] + a[i];
-        b[i + 1] = b[i] + b[i];
-        i++;
-    }
-
-    while (i > 0) {
-        i--;
-        if (a[i] <= y) {
-            y -= a[i];
-            z += b[i];
-        }
-    }
-
-    return z;
-}
-
 /**
- * integer division
- * @param x
- * @param y
+ * integer division in javascript
  */
 function div(x,y) {
+    if(y === 0) return x;
     var a = [1];
     var b = [y];
     var i = 0;
@@ -70,6 +46,28 @@ function div(x,y) {
     return z;
 }
 
+/*in RIES*/
+function div(x,y)
+    begin
+    a[0] := 1;
+    b[0] := y;
+    if(y = 0) then div:= x else do begin
+        while (b[i]<=x) do begin
+            a[i +1] := a[i] + a[i];
+            b[i +1] := b[i] + b[i];
+            i := (i + 1)
+        end;
+        while(i>0) do begin
+            if(b[i]<=x) then begin
+            x := (x - b[i]);
+            z := (z + a[i])
+            i:= (i-1);
+        end;
+        div:= z;
+    end;
+end;
+
+
 // console.log(prod(99, 5));
 
 //tests
@@ -82,6 +80,7 @@ console.log(div(1000,1000), Math.floor(1000/1000));
 console.log(div(1000,1), Math.floor(1000/1));
 console.log(div(1000,2), Math.floor(1000/2));
 console.log(div(1000,3), Math.floor(1000/3));
+console.log(div(42,0), Math.floor(42/0));
 
 
 
