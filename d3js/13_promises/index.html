@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src = "https://d3js.org/d3.v7.min.js"></script>
+  <script src="d3-jnd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+
+<fieldset>
+  <script src="https://cdn.jsdelivr.net/npm/d3-color@3"></script>
+
+  <!-- create 2 input tags with the following attributes:
+  type   -- color
+  id     -- to reference it uniquely in JavaScript
+  class  -- to reference All inputs in JavaScript
+  value  -- initial color value (e.g. "#000000" for black, or "#FFFFFF" for white-->
+
+  <label for="color1" class="btn btn-outline-dark"><input type="color" id="color1" class="color"
+                                                          value="#000000"></label>
+
+  <label class="btn btn-outline-dark" for="color2"><input type="color" id="color2" class="color" value="#FFFFFF"></label>
+
+
+  <!-- create 1 input tag with the following attributes
+  type   -- range
+  id     -- to reference it uniquely in JavaScript
+  class  -- to reference ALL inputs in JavaScript
+  value  -- initial color angle value (.1)
+  min, max, step -- ensure the range of the slider is between 0-1 and the the step is .1 or smaller
+  -->
+
+  <label for="angle" class="btn btn-outline-dark"><input type="range" id="angle" class="color" value=".1" min="0" max="1" step=".1"></label>
+
+
+  <!-- create a span tag to display the result of the JND computation -->
+
+  <span id="jnd"></span>
+
+
+  <a class="btn btn-outline-dark" id="new-img" type="button">New Image</a>
+</fieldset>
+
+
+<img id="img" src="" height="500" alt="cute dog picture">
+
+
+</body>
+<script src="index.js"></script>
+</html>
