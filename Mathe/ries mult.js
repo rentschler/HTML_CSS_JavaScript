@@ -34,38 +34,41 @@ function div(x,y) {
         b[i + 1] = b[i] + b[i];
         i++;
     }
-
+    // console.log(a,b,i)
     while (i >= 0) {
+        i--;
         if (b[i] <= x) {
             x -= b[i];
             z += a[i];
         }
-        i--;
     }
 
     return z;
 }
 
-/*in RIES*/
-function div(x,y)
-    begin
-    a[0] := 1;
-    b[0] := y;
-    if(y = 0) then div:= x else do begin
-        while (b[i]<=x) do begin
-            a[i +1] := a[i] + a[i];
-            b[i +1] := b[i] + b[i];
-            i := (i + 1)
-        end;
-        while(i>0) do begin
-            if(b[i]<=x) then begin
-            x := (x - b[i]);
-            z := (z + a[i])
-            i:= (i-1);
-        end;
-        div:= z;
-    end;
-end;
+// console.log(div(3,2));
+
+//
+// /*in RIES*/
+// function div(x,y)
+//     begin
+//     a[0] := 1;
+//     b[0] := y;
+//     if(y = 0) then div:= x else do begin
+//         while (b[i]<=x) do begin
+//             a[i +1] := a[i] + a[i];
+//             b[i +1] := b[i] + b[i];
+//             i := (i + 1)
+//         end;
+//         while(i>0) do begin
+//             if(b[i]<=x) then begin
+//             x := (x - b[i]);
+//             z := (z + a[i])
+//             i:= (i-1);
+//         end;
+//         div:= z;
+//     end;
+// end;
 
 
 // console.log(prod(99, 5));
@@ -83,6 +86,50 @@ console.log(div(1000,3), Math.floor(1000/3));
 console.log(div(42,0), Math.floor(42/0));
 
 
+/**
+ * for any input check if exp(x,y) = z without using Math.pow
+ * @param x
+ * @param y
+ * @param zz
+ * @returns {*}
+ */
+function xyz(x,y,zz) {
+    var a = [1];
+    var b = [x];
+    var i = 0;
+    var z = 0;
+    while (b[i] <= zz) {
+        a[i + 1] = a[i] * a[i];
+        b[i + 1] = b[i] * b[i];
+        i++;
+    }
+    while(i>0) {
+        i--;
+        if (b[i] <= zz) {
+            zz /= b[i];
+            z += a[i];
+        }
+    }
+    return z;
+}
+
+/**
+ * in RIES
+ */
+
+// function xyz(x,y,z);
+// begin
+//     w := 1;
+//     while(w<z) do begin
+//         w := (w * x);
+//     end;
+//     xyz := (w = z);
+// end;
+
+
+console.log(xyz(2,3,8));
+console.log(xyz(2,3,9));
+console.log(xyz(2,10,1024));
 
 
 
