@@ -17,8 +17,22 @@ function draw(data) {
     //     {id: 'd3', value: 12, region: 'China'},
     //     {id: 'd4', value: 6, region: 'Germany'},
     // ];
-    const DUMMY_DATA = data;
+    // const DUMMY_DATA = data;
 
+    const DUMMY_DATA = [
+        {
+            "name": "Adelie",
+            "mpg": 1473.8999999999996
+        },
+        {
+            "name": "Chinstrap",
+            "mpg": 924.3
+        },
+        {
+            "name": "Gentoo",
+            "mpg": 51.7
+        }
+    ]
     let width = 1000;
     let height = 800;
 

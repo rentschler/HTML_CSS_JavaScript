@@ -81,7 +81,7 @@
         if(arguments.length < 3) s = 0.1;
         if(arguments.length < 4) p = 0.5;
 
-        var jnd = jndLabInterval(p, s);
+        let jnd = jndLabInterval(p, s);
         c1 = d3.lab(c1);
         c2 = d3.lab(c2);
 

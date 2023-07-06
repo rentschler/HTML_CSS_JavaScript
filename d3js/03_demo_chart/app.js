@@ -19,7 +19,6 @@ let numOFBars = DUMMY_DATA.length;
 
 // let selectedData = DUMMY_DATA;
 // create a copy of the original array using the spread operator. Here's an example:
-
 let selectedData = DUMMY_DATA.filter(() => true)
 
 const charContainer = d3.select('svg')

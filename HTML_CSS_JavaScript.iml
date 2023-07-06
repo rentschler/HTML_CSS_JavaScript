@@ -21,5 +21,8 @@
     <orderEntry type="library" name="bootstrap-colorpicker" level="application" />
     <orderEntry type="library" name="jquery-2.2.2" level="application" />
     <orderEntry type="library" name="d3-color" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="d3.v7" level="application" />
+    <orderEntry type="library" name="d3-color" level="application" />
   </component>
 </module>

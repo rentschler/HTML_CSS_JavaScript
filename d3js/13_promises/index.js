@@ -38,7 +38,7 @@ fetchData().then((data) => console.log(data));
 let c1 = "black",
     c2 = "white",
     jndWidth = .1
-legible = noticeablyDifferent(c1, c2, jndWidth,  0.1); // true
+legible = noticeablyDifferent(c1, c2); // true
 
 
 // create an event handler that is called on 'input' of the HTML color input
@@ -51,6 +51,8 @@ let foo = () =>{
     c2 = d3.select("#color2").property("value");
     jndWidth = d3.select("#angle").property("value");
     console.log(c1);
+    legible = noticeablyDifferent(c1, c2, jndWidth); // true
+
     d3.select("#jnd").text(legible)
 }
 

@@ -49,7 +49,7 @@ function div(x,y) {
 // console.log(div(3,2));
 
 //
-// /*in RIES*/
+/*in RIES*/
 // function div(x,y)
 //     begin
 //     a[0] := 1;
@@ -117,14 +117,23 @@ function xyz(x,y,zz) {
  * in RIES
  */
 
-// function xyz(x,y,z);
-// begin
-//     w := 1;
-//     while(w<z) do begin
-//         w := (w * x);
-//     end;
-//     xyz := (w = z);
-// end;
+function c(x,y,z);
+begin
+    if(y = 0) then
+        if(z = 1) then c:= 1 else c:= 0;
+    else
+        if(x = 0 or x = 1) then
+            if(x = z) then c:= 1 else c:= 0;
+    p := 1;
+    while(p < z and y > 0) do begin
+        p := (p * x);
+        if(p = z) then begin
+            c:= 1;
+        end;
+        y := (y - 1)
+    end;
+    c := 0
+end;
 
 
 console.log(xyz(2,3,8));
