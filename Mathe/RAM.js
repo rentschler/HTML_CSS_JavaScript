@@ -39,6 +39,39 @@
 //     console.log(`n = ${n}, k = ${k}, r1 = ${r1}, r2 = ${r2}, r1 == r2: ${r1 === r2}`)
 // }
 
-let n = 1000;
-let k = 0;
-console.log(`n = ${n}, k = ${k}, r1 = ${divPrime(n,k)}, r2 = ${divPrime2(n,k)}`);
+// let n = 1000;
+// let k = 0;
+// console.log(`n = ${n}, k = ${k}, r1 = ${divPrime(n,k)}, r2 = ${divPrime2(n,k)}`);
+
+/**
+ * log2(n)
+ */
+function log2(n){
+    return Math.floor(Math.log2(n));
+}
+
+function log2Prime(n) {
+    //RAM syntax
+    let [r0, r1, r2, r3, r4] = [+n, 0, 0, 0, 0];
+    r1 = 1; // power of 2
+    r2 = 1; // one constant
+    while (true) {
+        r3 = r0 - r1; // subtract power of 2 from n
+        if (r3 < 0) break; // if negative, break
+        r4 = r4 + r2; // increment counter
+        r1 = r1 + r1; // double power of 2
+    }
+    r0 = r4 - r2;
+    return r0;
+}
+
+//check if log2 and log2Prime are equivalent
+
+for (let i = 0; i < 100; i++) {
+    let n = Math.floor(Math.random() * 1000);
+    let r1 = log2(n);
+    let r2 = log2Prime(n);
+    console.log(`n = ${n}, r1 = ${r1}, r2 = ${r2}, r1 == r2: ${r1 === r2}`)
+}
+
+console.log(`n = ${128}, r1 = ${log2(128)}, r2 = ${log2Prime(128)}`);
