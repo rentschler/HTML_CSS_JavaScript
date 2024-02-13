@@ -20,11 +20,11 @@
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // JavaScript code will go here
     d3.json('data.json').then(function(data) {
         console.log(data);
         var dimensions = Object.keys(data[0]);
 
+        // Create a scale for each dimension
         var y = {};
         dimensions.forEach(function(dimension) {
             y[dimension] = d3.scaleLinear()
@@ -35,12 +35,13 @@
         console.log(dimensions);
         console.log(y);
 
-        // Continue with the plot creation
+        // Build the X scale
         var x = d3.scalePoint()
             .range([0, innerWidth])
             .padding(1)
             .domain(dimensions);
 
+        // draw axes
         svg.selectAll("myAxis")
             .data(dimensions).enter()
             .append("g")
@@ -52,6 +53,21 @@
             .text(function(d) { return d; })
             .style("fill", "black");
 
+        // define brushes
+        var brushes = {};
+
+        dimensions.forEach(function(dimension) {
+            brushes[dimension] = d3.brushY()
+                .extent([[-8, 0], [8, innerHeight]])
+                .on("brush", brushed)
+                .on("end", brushEnded);
+
+            // Append the brush to each axis
+            svg.append("g")
+                .attr("class", "brush")
+                .attr("transform", function(d) { return "translate(" + x(dimension) + ")"; })
+                .call(brushes[dimension]);
+        });
         // draw lines
         svg.selectAll("myPath")
             .data(data)
@@ -63,6 +79,16 @@
             .style("stroke", "steelblue")
             .style("opacity", 0.5);
     });
+
+    function brushed(event, d) {
+        console.log(event);
+        console.log(d);
+    }
+
+    function brushEnded(event, d) {
+        console.log(event);
+        console.log(d);
+    }
 </script>
 </body>
 </html>

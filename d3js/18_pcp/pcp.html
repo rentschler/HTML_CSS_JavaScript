@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PCP</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+</head>
+<body>
+<svg width="800" height="400"></svg>
+<script>
+    const width = 800;
+    const height = 400;
+    const margin = {top: 30, right: 30, bottom: 30, left: 30};
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const svg = d3.select('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    d3.json('data.json').then(function(data) {
+        console.log(data);
+        var dimensions = Object.keys(data[0]);
+
+        // Create a scale for each dimension
+        var y = {};
+        dimensions.forEach(function(dimension) {
+            y[dimension] = d3.scaleLinear()
+                .domain(d3.extent(data, function(d) { return +d[dimension]; }))
+                .range([innerHeight, 0])
+                .nice();
+        });
+        console.log(dimensions);
+        console.log(y);
+
+        // Build the X scale
+        var x = d3.scalePoint()
+            .range([0, innerWidth])
+            .padding(1)
+            .domain(dimensions);
+
+        // draw axes
+        svg.selectAll("myAxis")
+            .data(dimensions).enter()
+            .append("g")
+            .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+            .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+            .append("text")
+            .style("text-anchor", "middle")
+            .attr("y", -9)
+            .text(function(d) { return d; })
+            .style("fill", "black");
+
+        // draw lines
+        svg.selectAll("myPath")
+            .data(data)
+            .enter().append("path")
+            .attr("d",  function(d) {
+                return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+            })
+            .style("fill", "none")
+            .style("stroke", "steelblue")
+            .style("opacity", 0.5);
+    });
+</script>
+</body>
+</html>
