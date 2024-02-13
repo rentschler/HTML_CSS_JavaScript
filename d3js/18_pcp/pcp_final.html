@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PCP final</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+</head>
+<body>
+<svg width="800" height="400"></svg>
+<script>
+    const width = 800;
+    const height = 400;
+    const margin = {top: 30, right: 30, bottom: 30, left: 30};
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const svg = d3.select('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    d3.json('data.json').then(function(data) {
+        console.log(data);
+        // normalize the data by changing the scale of each dimension to [0,1]
+
+
+
+        var dimensions = Object.keys(data[0]);
+
+        // Create a scale for each dimension
+        var y = {};
+        dimensions.forEach(function(dimension) {
+            y[dimension] = d3.scaleLinear()
+                .domain(d3.extent(data, function(d) { return +d[dimension]; }))
+                .range([innerHeight, 0])
+                .nice();
+        });
+        console.log(dimensions);
+        console.log(y);
+
+        // Build the X scale
+        var x = d3.scalePoint()
+            .range([0, innerWidth])
+            .padding(1)
+            .domain(dimensions);
+        // drag and drop for the label of the axis
+        var labelDrag = d3.drag()
+            .on("start", dragStart)
+            .on("drag", dragging)
+            .on("end", dragEnd);
+
+
+        // draw axes
+        drawAxes()
+        // draw lines
+        drawPaths()
+
+
+
+        // drag and drop for the label of the axis
+        function dragStart(event, d) {
+            d3.select(this).raise(); // Optionally raise the label to ensure it's on top
+        }
+
+        function dragging(event, d) {
+            // get the position of the mouse relative to the svg
+            let x_local = d3.pointer(event)[0] -= margin.left;
+            const minX = x(dimensions[0]);
+            const maxX = x(dimensions[dimensions.length - 1]);
+            if(x_local < minX || x_local > maxX) return;
+
+
+                d3.select(this)
+                    // .attr("y", event.y)
+                    .attr("x", event.x);
+        }
+
+        function dragEnd(event, draggedDimension) {
+            var newOrder = dimensions.slice(); // Copy the original order
+            var dragX =d3.pointer(event)[0] -= margin.left; // Get the final x position of the dragged label
+
+            const positionOfAxes = dimensions.map(d => x(d));
+            // console.log(positionOfAxes);
+
+            // Calculate the new order based on the final position
+            newOrder.sort(function(a, b) {
+                return (a === draggedDimension ? dragX : x(a)) - (b === draggedDimension ? dragX : x(b));
+            });
+            console.log(newOrder)
+
+            x.domain(newOrder); // Update the x scale's domain with the new order
+            dimensions = newOrder; // Update the dimensions array with the new order
+            // Transition the axes to their new positions
+            var transition = svg.transition().duration(1000);
+
+            // Update the paths with the new axis order
+            transition.selectAll("path")
+                // .attr("d", pathFunction); // You'll need to define or update your path drawing function to reflect the new axis order
+            drawAxes();
+            drawPaths();
+        }
+
+        function drawAxes() {
+            // remove the previous axes
+            svg.selectAll("g").remove();
+            // draw axes
+            svg.selectAll("myAxis")
+                .data(dimensions).enter()
+                .append("g")
+                .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+                .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+                .append("text")
+                .style("text-anchor", "middle")
+                .attr("y", -9)
+                .text(function(d) { return d; })
+                .style("fill", "black")
+                .call(labelDrag);
+
+            // define brushes
+            var brushes = {};
+
+            dimensions.forEach(function(dimension) {
+                brushes[dimension] = d3.brushY()
+                    .extent([[-8, 0], [8, innerHeight]])
+                    .on("start", function(event) { brushStarted(event, dimension); }) // Handle brush start
+                    .on("brush", function(event) { brushed(event, dimension); })
+                    .on("end", brushEnded);
+
+                // Append the brush to each axis
+                svg.append("g")
+                    .attr("class", "brush brush-" + dimension)
+                    .attr("transform", function(d) { return "translate(" + x(dimension) + ")"; })
+                    .call(brushes[dimension]);
+            });
+        }
+
+
+
+        function drawPaths() {
+            // remove the previous paths
+            svg.selectAll(".myPath").remove();
+            // draw lines
+            svg.selectAll(".myPath")
+                .data(data)
+                .enter().append("path")
+                .classed("myPath", true)
+                .attr("d",  function(d) {
+                    return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+                })
+                .style("fill", "none")
+                .style("stroke", "steelblue")
+                .style("opacity", 0.5);
+        }
+
+        function brushStarted(event, dimension) {
+            // Clear all brushes except the current one
+            dimensions.forEach(function(d) {
+                if (d !== dimension) {
+                    svg.select(`.brush-${d}`).call(brushes[d].move, null); // Clear the brush
+                }
+            });
+        }
+        function brushed(event,dimension) {
+            // This function is called every time the brush is moved.
+            // You can determine the selected range using event.selection
+            // and filter your data accordingly.
+
+            if(event.selection) {
+                // console.log("brush event    ");
+                var [y0, y1] = event.selection;
+                svg.selectAll(".myPath")
+                    .style("opacity", 0.1) // Dim non-selected paths
+                    .filter(function(d) {
+                        return y[dimension](d[dimension]) >= y0 && y[dimension](d[dimension]) <= y1;
+                    })
+                    .style("opacity", 1); // Highlight selected paths
+            }
+        }
+
+        function brushEnded(event, dimension) {
+            // This function can be used to finalize the selection.
+            // For example, you could adjust the opacity of non-selected lines here.
+            if (!event.selection) {
+                // If the brush is cleared (e.g., by clicking outside it), you might want to reset any filters.
+                svg.selectAll("path").style("opacity", 0.5); // Reset the opacity if the brush is cleared
+                console.log("brush cleared");
+            }
+        }
+
+
+    });
+</script>
+</body>
+</html>
