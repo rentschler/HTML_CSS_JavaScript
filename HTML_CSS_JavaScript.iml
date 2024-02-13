@@ -8,10 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="d3.v7" level="application" />
     <orderEntry type="library" name="d3-scale.v3" level="application" />
     <orderEntry type="library" name="d3-axis" level="application" />
-    <orderEntry type="library" name="d3.v7" level="application" />
     <orderEntry type="library" name="d3-scale.v3" level="application" />
     <orderEntry type="library" name="d3-axis" level="application" />
     <orderEntry type="library" name="d3.v3" level="application" />
@@ -21,8 +19,10 @@
     <orderEntry type="library" name="bootstrap-colorpicker" level="application" />
     <orderEntry type="library" name="jquery-2.2.2" level="application" />
     <orderEntry type="library" name="d3-color" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="d3.v7" level="application" />
-    <orderEntry type="library" name="d3-color" level="application" />
+    <orderEntry type="library" name="d3-scale.v3" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="d3-axis" level="application" />
+    <orderEntry type="library" name="d3.v7" level="application" />
   </component>
 </module>

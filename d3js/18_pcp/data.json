@@ -1,0 +1,9 @@
+[
+  {"Dimension1": 10, "Dimension2": 20, "Dimension3": 30},
+  {"Dimension1": 15, "Dimension2": 25, "Dimension3": 35},
+    {"Dimension1": 20, "Dimension2": 15, "Dimension3": 29},
+    {"Dimension1": 25, "Dimension2": 20, "Dimension3": 30},
+    {"Dimension1": 30, "Dimension2": 25, "Dimension3": 35},
+    {"Dimension1": 35, "Dimension2": 30, "Dimension3": 40},
+    {"Dimension1": 40, "Dimension2": 35, "Dimension3": 45}
+]
