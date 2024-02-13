@@ -1,9 +1,13 @@
 [
-  {"Dimension1": 10, "Dimension2": 20, "Dimension3": 30},
-  {"Dimension1": 15, "Dimension2": 25, "Dimension3": 35},
-    {"Dimension1": 20, "Dimension2": 15, "Dimension3": 29},
-    {"Dimension1": 25, "Dimension2": 20, "Dimension3": 30},
-    {"Dimension1": 30, "Dimension2": 25, "Dimension3": 35},
-    {"Dimension1": 35, "Dimension2": 30, "Dimension3": 40},
-    {"Dimension1": 40, "Dimension2": 35, "Dimension3": 45}
-]
+  {"Dimension1": 10, "Dimension2": 20, "Dimension3": 30, "Dimension4": -10},
+  {"Dimension1": 12, "Dimension2": 18, "Dimension3": 35, "Dimension4": -5},
+  {"Dimension1": 14, "Dimension2": 16, "Dimension3": 40, "Dimension4": 0},
+    {"Dimension1": 16, "Dimension2": 14, "Dimension3": 45, "Dimension4": 5},
+    {"Dimension1": 18, "Dimension2": 12, "Dimension3": 50, "Dimension4": 10},
+    {"Dimension1": 20, "Dimension2": 10, "Dimension3": 55, "Dimension4": 15},
+    {"Dimension1": 22, "Dimension2": 8, "Dimension3": 60, "Dimension4": 20},
+    {"Dimension1": 24, "Dimension2": 6, "Dimension3": 65, "Dimension4": 25},
+    {"Dimension1": 26, "Dimension2": 4, "Dimension3": 70, "Dimension4": 30},
+    {"Dimension1": 28, "Dimension2": 2, "Dimension3": 75, "Dimension4": 35},
+    {"Dimension1": 30, "Dimension2": 0, "Dimension3": 80, "Dimension4": 40}
+  ]
