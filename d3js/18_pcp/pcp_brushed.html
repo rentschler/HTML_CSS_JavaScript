@@ -59,36 +59,65 @@
         dimensions.forEach(function(dimension) {
             brushes[dimension] = d3.brushY()
                 .extent([[-8, 0], [8, innerHeight]])
-                .on("brush", brushed)
+                .on("start", function(event) { brushStarted(event, dimension); }) // Handle brush start
+                .on("brush", function(event) { brushed(event, dimension); })
                 .on("end", brushEnded);
 
             // Append the brush to each axis
             svg.append("g")
-                .attr("class", "brush")
+                .attr("class", "brush brush-" + dimension)
                 .attr("transform", function(d) { return "translate(" + x(dimension) + ")"; })
                 .call(brushes[dimension]);
         });
         // draw lines
-        svg.selectAll("myPath")
+        svg.selectAll(".myPath")
             .data(data)
             .enter().append("path")
+            .classed("myPath", true)
             .attr("d",  function(d) {
                 return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
             })
             .style("fill", "none")
             .style("stroke", "steelblue")
             .style("opacity", 0.5);
+
+        function brushStarted(event, dimension) {
+            // Clear all brushes except the current one
+            dimensions.forEach(function(d) {
+                if (d !== dimension) {
+                    svg.select(`.brush-${d}`).call(brushes[d].move, null); // Clear the brush
+                }
+            });
+        }
+        function brushed(event,dimension) {
+            // This function is called every time the brush is moved.
+            // You can determine the selected range using event.selection
+            // and filter your data accordingly.
+
+            if(event.selection) {
+                // console.log("brush event    ");
+                var [y0, y1] = event.selection;
+                svg.selectAll(".myPath")
+                    .style("opacity", 0.1) // Dim non-selected paths
+                    .filter(function(d) {
+                        return y[dimension](d[dimension]) >= y0 && y[dimension](d[dimension]) <= y1;
+                    })
+                    .style("opacity", 1); // Highlight selected paths
+            }
+        }
+
+        function brushEnded(event, dimension) {
+            // This function can be used to finalize the selection.
+            // For example, you could adjust the opacity of non-selected lines here.
+            if (!event.selection) {
+                // If the brush is cleared (e.g., by clicking outside it), you might want to reset any filters.
+                svg.selectAll("path").style("opacity", 0.5); // Reset the opacity if the brush is cleared
+                console.log("brush cleared");
+            }
+        }
+
     });
 
-    function brushed(event, d) {
-        console.log(event);
-        console.log(d);
-    }
-
-    function brushEnded(event, d) {
-        console.log(event);
-        console.log(d);
-    }
 </script>
 </body>
 </html>
