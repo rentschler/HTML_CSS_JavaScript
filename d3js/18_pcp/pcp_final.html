@@ -24,8 +24,6 @@
         console.log(data);
         // normalize the data by changing the scale of each dimension to [0,1]
 
-
-
         var dimensions = Object.keys(data[0]);
 
         // Create a scale for each dimension
@@ -50,6 +48,8 @@
             .on("drag", dragging)
             .on("end", dragEnd);
 
+        // define brushes
+        var brushes = {};
 
         // draw axes
         drawAxes()
@@ -105,10 +105,11 @@
             // remove the previous axes
             svg.selectAll("g").remove();
             // draw axes
-            svg.selectAll("myAxis")
+            svg.selectAll(".myAxis")
                 .data(dimensions).enter()
                 .append("g")
                 .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+                .classed("myAxis", true)
                 .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
                 .append("text")
                 .style("text-anchor", "middle")
@@ -117,8 +118,7 @@
                 .style("fill", "black")
                 .call(labelDrag);
 
-            // define brushes
-            var brushes = {};
+
 
             dimensions.forEach(function(dimension) {
                 brushes[dimension] = d3.brushY()
@@ -184,7 +184,7 @@
             if (!event.selection) {
                 // If the brush is cleared (e.g., by clicking outside it), you might want to reset any filters.
                 svg.selectAll("path").style("opacity", 0.5); // Reset the opacity if the brush is cleared
-                console.log("brush cleared");
+                // console.log("brush cleared");
             }
         }
 
