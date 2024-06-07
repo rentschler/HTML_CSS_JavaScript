@@ -12,7 +12,7 @@
 // console.log(`R0 = ${a0}, R1 = ${b1}, R2 = ${c2}`);
 
  function divPrime(n,k){
-    return Math.ceil(n/(k+1));
+    return Math.ceil(n/(k));
  }
 
  function divPrime2(n,k){
@@ -27,17 +27,32 @@
     return r0;
 }
 
+function div(n,k){
+    return Math.floor(n/k);
+}
+
+function div2(n,k){
+    let [r0,r1,r2,r3, r4] = [+n,+k,0,0,0];
+    r3 = 1;
+    while(true){
+        r4 = r1 - r0;
+        if(r4 > 0) return r2;
+        r0 = r0 - r1;
+        r2 = r2 + r3;
+    }
+}
+
 
 
 //check if divPrime and divPrime2 are equivalent
 
-// for (let i = 0; i < 100; i++) {
-//     let n = Math.floor(Math.random() * 1000);
-//     let k = Math.floor(Math.random() * 1000);
-//     let r1 = divPrime(n,k);
-//     let r2 = divPrime2(n,k);
-//     console.log(`n = ${n}, k = ${k}, r1 = ${r1}, r2 = ${r2}, r1 == r2: ${r1 === r2}`)
-// }
+for (let i = 0; i < 100; i++) {
+    let n = Math.floor(Math.random() * 1000);
+    let k = Math.floor(Math.random() * 1000);
+    let r1 = divPrime(n,k);
+    let r2 = divPrime2(n,k);
+    console.log(`n = ${n}, k = ${k}, r1 = ${r1}, r2 = ${r2}, r1 == r2: ${r1 === r2}`)
+}
 
 let n = 8;
 let k = 3;
@@ -67,10 +82,10 @@ function log2Prime(n) {
 
 //check if log2 and log2Prime are equivalent
 
-for (let i = 0; i < 100; i++) {
-    let n = i
-    let r1 = log2(n);
-    let r2 = log2Prime(n);
-    console.log(`n = ${n}, r1 = ${r1}, r2 = ${r2}, r1 == r2: ${r1 === r2}`)
-}
+// for (let i = 0; i < 100; i++) {
+//     let n = i
+//     let r1 = log2(n);
+//     let r2 = log2Prime(n);
+//     console.log(`n = ${n}, r1 = ${r1}, r2 = ${r2}, r1 == r2: ${r1 === r2}`)
+// }
 
